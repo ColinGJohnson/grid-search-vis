@@ -2,7 +2,7 @@
  * @author colin johnson
  * created on 2018/03/04
  */
-public class MazeLauncher extends CommandDisplay {
+public class MazeLauncher {
     public static void main(String[] args) {
 
         //MazeInterface mazeInterface = new MazeInterface();
