@@ -1,5 +1,7 @@
 package net.colinjohnson.gridsearch;
 
+import net.colinjohnson.gridsearch.gui.MazePanel;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -13,32 +15,7 @@ import java.util.*;
  * created on 2018/03/04
  */
 public class IterativeMaze {
-
-    // settings
-    private boolean printMaze = false;
-    private boolean askSize = false;
-    private boolean saveAsImage = true;
-    private int iterations = 10;
-
-    private boolean colorMaze = true;
-    private boolean colorByProgress = false;
-    private float colorRange = 0.55f;
-    private float colorShift = 0.5f;
-    private float saturation = 0.7f;
-    private float brightness = 0.9f;
-
-    private boolean showGeneration = true;
-    private boolean showGrid = false;
-    private int delay = 1;
-    private int speed = 20; // must be >= 1, limits painted frames to increase drawing speed
-    private int scale = 1;
-    private int jumpDist = 1; // must be >= 1, controls the distance between maze halls
-    private int size = 1001; // must be >= 2, controls the height & width of the maze
-
-    private double lastDirectionWeighting = 1; // must be at least 1
-    private double randomnessWeighting = 1;
-    private Direction directionalWeighting = Direction.Up;
-    private double directionWeightingAmount = -1; // must be at least 1
+    GridSearchConfig gridSearchConfig = new GridSearchConfig();
 
     // enum for directions
     public enum Direction {
@@ -256,7 +233,7 @@ public class IterativeMaze {
      * @param y The y-coordinate on the maze.
      * @return An appropriate color for the maze square.
      */
-    Color getColor(int x, int y) {
+    public Color getColor(int x, int y) {
         if (!colorMaze) {
             return Color.WHITE;
         } else if (colorByProgress) {
@@ -291,251 +268,35 @@ public class IterativeMaze {
         }
     }
 
-    // object to store information about generation progress
-    class MazePosition {
-        int x = 0;
-        int y = 0;
-        ArrayList<Direction> directions = new ArrayList<Direction>();
-        MazePosition formerPosition = null;
 
-        MazePosition(int x, int y, MazePosition formerPosition) {
-            this.x = x;
-            this.y = y;
-            this.formerPosition = formerPosition;
-        } // MazePosition constructor
 
-        private void allow(Direction direction) {
-
-            // add direction to allowed directions if doesn't exist
-            if (!directions.contains(direction)) {
-                directions.add(direction);
-            }
-        }
-
-        private void disallow(Direction direction) {
-
-            // remove direction from allowed directions
-            directions.remove(direction);
-        }
-
-        public void checkDirections() {
-
-            // check up
-            if (y - jumpDist >= 0 && maze[x][y - jumpDist] == TILE_DEFAULT) {
-                allow(Direction.Up);
-            } else {
-                disallow(Direction.Up);
-            }
-
-            // check down
-            if (y + jumpDist < maze[x].length && maze[x][y + jumpDist] == TILE_DEFAULT) {
-                allow(Direction.Down);
-            } else {
-                disallow(Direction.Down);
-            }
-
-            // check left
-            if (x - jumpDist >= 0 && maze[x - jumpDist][y] == TILE_DEFAULT) {
-                allow(Direction.Left);
-            } else {
-                disallow(Direction.Left);
-            }
-
-            // check right
-            if (x + jumpDist < maze.length && maze[x + jumpDist][y] == TILE_DEFAULT) {
-                allow(Direction.Right);
-            } else {
-                disallow(Direction.Right);
-            }
-        } // checkDirection
-
-        public Direction select() {
-
-            double totalWeights = 0;
-            RandomCollection<Direction> selectMap = new RandomCollection<>();
-
-            for (Direction direction: directions) {
-                if (direction == last) {
-                    selectMap.add(lastDirectionWeighting, direction);
-                } else {
-                    selectMap.add(randomnessWeighting, direction);
-                }
-
-                if (direction == directionalWeighting){
-                    selectMap.add(directionWeightingAmount, direction);
-                }
-            }
-
-            last = selectMap.next();
-            return last;
-        }
-
-        public boolean stuck() {
-            return directions.isEmpty();
-        } // stuck
-    } // MazePosition
-
-    public boolean isPrintMaze() {
-        return printMaze;
-    }
-
-    public void setPrintMaze(boolean printMaze) {
-        this.printMaze = printMaze;
-    }
-
-    public boolean isSaveAsImage() {
-        return saveAsImage;
-    }
-
-    public void setSaveAsImage(boolean saveAsImage) {
-        this.saveAsImage = saveAsImage;
-    }
 
     public boolean isColorMaze() {
         return colorMaze;
-    }
-
-    public void setColorMaze(boolean colorMaze) {
-        this.colorMaze = colorMaze;
-    }
-
-    public boolean isColorByProgress() {
-        return colorByProgress;
-    }
-
-    public void setColorByProgress(boolean colorByProgress) {
-        this.colorByProgress = colorByProgress;
-    }
-
-    public boolean isAskSize() {
-        return askSize;
-    }
-
-    public void setAskSize(boolean askSize) {
-        this.askSize = askSize;
-    }
-
-    public int getIterations() {
-        return iterations;
-    }
-
-    public void setIterations(int iterations) {
-        this.iterations = iterations;
-    }
-
-    public boolean isShowGeneration() {
-        return showGeneration;
-    }
-
-    public void setShowGeneration(boolean showGeneration) {
-        this.showGeneration = showGeneration;
     }
 
     public boolean isShowGrid() {
         return showGrid;
     }
 
-    public void setShowGrid(boolean showGrid) {
-        this.showGrid = showGrid;
-    }
-
-    public int getDelay() {
-        return delay;
-    }
-
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
     public int getScale() {
         return scale;
-    }
-
-    public void setScale(int scale) {
-        this.scale = scale;
-    }
-
-    public int getJumpDist() {
-        return jumpDist;
-    }
-
-    public void setJumpDist(int jumpDist) {
-        this.jumpDist = jumpDist;
     }
 
     public int getSize() {
         return size;
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public float getColorRange() {
-        return colorRange;
-    }
-
-    public void setColorRange(float colorRange) {
-        this.colorRange = colorRange;
-    }
-
-    public float getColorShift() {
-        return colorShift;
-    }
-
-    public void setColorShift(float colorShift) {
-        this.colorShift = colorShift;
-    }
-
-    public float getSaturation() {
-        return saturation;
-    }
-
-    public void setSaturation(float saturation) {
-        this.saturation = saturation;
-    }
-
-    public float getBrightness() {
-        return brightness;
-    }
-
-    public void setBrightness(float brightness) {
-        this.brightness = brightness;
-    }
-
-    public double getLastDirectionWeighting() {
-        return lastDirectionWeighting;
-    }
-
     public int[][] getMaze() {
         return maze;
-    }
-
-    public void setMaze(int[][] maze) {
-        this.maze = maze;
     }
 
     public Stack<MazePosition> getHistory() {
         return history;
     }
 
-    public void setHistory(Stack<MazePosition> history) {
-        this.history = history;
-    }
-
     public int getNumFilled() {
         return numFilled;
     }
 
-    public void setNumFilled(int numFilled) {
-        this.numFilled = numFilled;
-    }
-} // Main
+}

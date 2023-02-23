@@ -1,7 +1,5 @@
 package net.colinjohnson.gridsearch;
 
-import net.colinjohnson.gridsearch.MazePanel;
-
 import javax.swing.*;
 
 public class TestForm {

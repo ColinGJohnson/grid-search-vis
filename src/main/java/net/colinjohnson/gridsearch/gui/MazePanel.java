@@ -1,4 +1,6 @@
-package net.colinjohnson.gridsearch;
+package net.colinjohnson.gridsearch.gui;
+
+import net.colinjohnson.gridsearch.IterativeMaze;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,7 +33,7 @@ public class MazePanel extends JPanel {
         for (int y = 0; y < generator.getMaze().length; y++) {
             for (int x = 0; x < generator.getMaze()[0].length; x++) {
                 if(generator.getHistory().size() <= 0) continue;
-                if (generator.getMaze()[x][y] != generator.TILE_DEFAULT) {
+                if (generator.getMaze()[x][y] != IterativeMaze.TILE_DEFAULT) {
                     if (generator.getHistory().peek().x == x && generator.getHistory().peek().y == y) {
                         if (generator.isColorMaze()) {
                             g.setColor(Color.WHITE);

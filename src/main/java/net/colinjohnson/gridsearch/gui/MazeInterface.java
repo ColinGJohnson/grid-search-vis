@@ -1,4 +1,6 @@
-package net.colinjohnson.gridsearch;
+package net.colinjohnson.gridsearch.gui;
+
+import net.colinjohnson.gridsearch.IterativeMaze;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,9 +8,6 @@ import java.awt.*;
 /**
  * MazeInterface provides a java swing wrapper for an IterativeMaze generator which can control the generator's
  * settings and display its progress during generation.
- *
- * @author colin johnson
- * created on 2018/03/04
  */
 public class MazeInterface {
 
