@@ -1,4 +1,4 @@
-package net.colinjohnson.gridsearch;
+package net.colinjohnson.grid;
 
 public interface SearchAlgorithm {
 

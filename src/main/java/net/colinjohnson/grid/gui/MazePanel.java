@@ -1,18 +1,14 @@
-package net.colinjohnson.gridsearch.gui;
+package net.colinjohnson.grid.gui;
 
-import net.colinjohnson.gridsearch.IterativeMaze;
+import net.colinjohnson.grid.IterativeMaze;
 
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * @author colin johnson
- * created on 2018/03/04
- */
 public class MazePanel extends JPanel {
     IterativeMaze generator;
 
-    public MazePanel(IterativeMaze generator){
+    public MazePanel(IterativeMaze generator) {
         super();
         this.generator = generator;
     }

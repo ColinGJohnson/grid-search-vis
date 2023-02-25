@@ -1,6 +1,6 @@
-package net.colinjohnson.gridsearch.gui;
+package net.colinjohnson.grid.gui;
 
-import net.colinjohnson.gridsearch.IterativeMaze;
+import net.colinjohnson.grid.IterativeMaze;
 
 import javax.swing.*;
 import java.awt.*;

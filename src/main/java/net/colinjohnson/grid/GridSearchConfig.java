@@ -1,12 +1,6 @@
-package net.colinjohnson.gridsearch;
+package net.colinjohnson.grid;
 
 public class GridSearchConfig {
-    private boolean printMaze = false;
-    private boolean askSize = false;
-    private boolean saveAsImage = true;
-    private int iterations = 10;
-
-    private boolean colorMaze = true;
     private boolean colorByProgress = false;
     private float colorRange = 0.55f;
     private float colorShift = 0.5f;
