@@ -1,4 +1,4 @@
-package net.colinjohnson.grid;
+package net.colinjohnson.search;
 
 import java.util.ArrayList;
 

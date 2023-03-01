@@ -1,4 +1,7 @@
-package net.colinjohnson.grid;
+package net.colinjohnson.search.grid;
+
+import net.colinjohnson.search.IterativeMaze;
+import net.colinjohnson.search.MazePosition;
 
 public class GridSearch {
     // fills a given integer array with a maze

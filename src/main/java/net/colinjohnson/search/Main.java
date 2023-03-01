@@ -1,4 +1,4 @@
-package net.colinjohnson.grid;
+package net.colinjohnson.search;
 
 public class Main {
     public static void main(String[] args) {

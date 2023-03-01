@@ -1,4 +1,4 @@
-package net.colinjohnson.grid;
+package net.colinjohnson.search.grid;
 
 public class GridSearchNode {
     private GridSearchNode previous;

@@ -1,6 +1,7 @@
-package net.colinjohnson.grid;
+package net.colinjohnson.search;
 
-import net.colinjohnson.grid.gui.MazePanel;
+import net.colinjohnson.search.grid.GridSearchConfig;
+import net.colinjohnson.search.gui.MazePanel;
 
 import javax.swing.*;
 import java.awt.*;

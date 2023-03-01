@@ -1,4 +1,4 @@
-package net.colinjohnson.grid.gui;
+package net.colinjohnson.search.gui;
 
 import javax.swing.*;
 

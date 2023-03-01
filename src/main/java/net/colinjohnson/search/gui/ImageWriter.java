@@ -1,4 +1,6 @@
-package net.colinjohnson.grid;
+package net.colinjohnson.search.gui;
+
+import net.colinjohnson.search.grid.Grid;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
