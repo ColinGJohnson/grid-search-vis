@@ -1,6 +1,6 @@
-package net.colinjohnson.search.grid;
+package net.colinjohnson.vis.grid;
 
-import net.colinjohnson.search.IterativeMaze;
+import net.colinjohnson.vis.IterativeMaze;
 
 public class GridSearchConfig {
     private boolean colorByProgress = false;

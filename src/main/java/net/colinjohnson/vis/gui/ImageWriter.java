@@ -1,6 +1,6 @@
-package net.colinjohnson.search.gui;
+package net.colinjohnson.vis.gui;
 
-import net.colinjohnson.search.grid.Grid;
+import net.colinjohnson.vis.grid.Grid;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

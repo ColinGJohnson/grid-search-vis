@@ -1,9 +1,19 @@
-package net.colinjohnson.search.grid;
+package net.colinjohnson.vis.grid;
 
-import net.colinjohnson.search.IterativeMaze;
-import net.colinjohnson.search.MazePosition;
+import net.colinjohnson.vis.IterativeMaze;
+import net.colinjohnson.vis.MazePosition;
 
 public class GridSearch {
+
+
+
+    /**
+     * Take one step forward in the search.
+     */
+    public void Step() {
+
+    }
+
     // fills a given integer array with a maze
     public void generate() {
 

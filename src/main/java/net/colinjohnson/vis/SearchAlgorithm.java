@@ -1,4 +1,4 @@
-package net.colinjohnson.search;
+package net.colinjohnson.vis;
 
 public interface SearchAlgorithm {
 

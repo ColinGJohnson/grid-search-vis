@@ -1,6 +1,6 @@
-package net.colinjohnson.search.gui;
+package net.colinjohnson.vis.gui;
 
-import net.colinjohnson.search.IterativeMaze;
+import net.colinjohnson.vis.IterativeMaze;
 
 import javax.swing.*;
 import java.awt.*;

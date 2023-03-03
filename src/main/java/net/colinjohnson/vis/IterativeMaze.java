@@ -1,7 +1,6 @@
-package net.colinjohnson.search;
+package net.colinjohnson.vis;
 
-import net.colinjohnson.search.grid.GridSearchConfig;
-import net.colinjohnson.search.gui.MazePanel;
+import net.colinjohnson.vis.grid.GridSearchConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,38 +37,8 @@ public class IterativeMaze {
 
     public IterativeMaze() {
 
-        // get and set size of maze to generate with scanner
-        if (askSize) {
-            System.out.print("Enter maze size: ");
-            Scanner scanner = new Scanner(System.in);
-            size = scanner.nextInt();
-            scanner.close();
-        }
-
         // initialize the maze array
         maze = new int[size][size];
-
-        // create a jpanel to show progress if showGeneration is enabled
-        if (showGeneration) {
-
-            // create a new window and set its size
-            frame = new JFrame();
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(1280, 720);
-
-            // create and add a panel for drawing graphics to
-            panel = new MazePanel(this);
-            frame.add(panel);
-
-            // center the window on the screen
-            frame.setLocationRelativeTo(null);
-
-            // give the window a title and set it visible
-            frame.setTitle("Recursive Maze Generator");
-            frame.setVisible(true);
-        }
-
-
 
         // get total number of squares
         totalSquares = (int) (Math.pow(size / jumpDist, 2));

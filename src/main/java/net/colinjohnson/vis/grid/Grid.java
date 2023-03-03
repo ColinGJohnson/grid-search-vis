@@ -1,4 +1,4 @@
-package net.colinjohnson.search.grid;
+package net.colinjohnson.vis.grid;
 
 import java.util.function.Supplier;
 
