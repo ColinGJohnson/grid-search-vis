@@ -3,16 +3,33 @@ package net.colinjohnson.vis.grid;
 import net.colinjohnson.vis.IterativeMaze;
 import net.colinjohnson.vis.MazePosition;
 
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
 public class GridSearch {
+    PriorityQueue<GridSearchNode> searchQueue;
+
+    public void search() {
+
+    }
 
 
+    public void init(Comparator<GridSearchNode> gridSearchNodeComparator) {
+        searchQueue = new PriorityQueue<>(gridSearchNodeComparator);
+    }
 
     /**
      * Take one step forward in the search.
      */
     public void Step() {
 
+
     }
+
+
+
+
+
 
     // fills a given integer array with a maze
     public void generate() {

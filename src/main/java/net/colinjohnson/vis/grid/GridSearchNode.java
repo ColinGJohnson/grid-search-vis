@@ -3,22 +3,47 @@ package net.colinjohnson.vis.grid;
 import java.util.function.Supplier;
 
 public class GridSearchNode implements GridNode {
-    private GridSearchNode previous;
+    private boolean visited;
+    private final GridSearchNode previous;
+
+    public GridSearchNode() {
+        this.previous = null;
+        this.visited = false;
+    }
 
     public GridSearchNode(GridSearchNode previous) {
         this.previous = previous;
+        this.visited = false;
     }
 
-    public long getPathLength() {
-        long pathLength = 1;
+    // TODO: Cache path length if this impacts performance
+    public Long getPathLength() {
+        GridSearchNode node = previous;
+        long length = 0;
+        while (node != null) {
+            node = node.getPrevious();
+        }
+        return length;
+    }
+
+    public void visit(GridSearchNode previous) {
+        this.visited = true;
 
     }
 
-    public class SupplyDefault implements Supplier<GridNode> {
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public GridSearchNode getPrevious() {
+        return previous;
+    }
+
+    public static class SupplyDefault implements Supplier<GridNode> {
 
         @Override
         public GridNode get() {
-            return new gridNode
+            return new GridSearchNode()
         }
     }
 }
