@@ -3,11 +3,14 @@ package net.colinjohnson.vis.grid;
 import net.colinjohnson.vis.IterativeMaze;
 import net.colinjohnson.vis.MazePosition;
 
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.PriorityQueue;
 
 public class GridSearch {
     PriorityQueue<GridSearchNode> searchQueue;
+    Grid<GridSearchNode> grid;
 
     public void search() {
 
@@ -22,13 +25,14 @@ public class GridSearch {
      * Take one step forward in the search.
      */
     public void Step() {
-
-
+        GridSearchNode node = searchQueue.poll();
+        searchQueue.addAll(expand(grid, node));
     }
 
 
-
-
+    public List<GridSearchNode> expand(Grid<GridSearchNode> grid, GridSearchNode gridSearchNode) {
+        return Collections.emptyList();
+    }
 
 
     // fills a given integer array with a maze

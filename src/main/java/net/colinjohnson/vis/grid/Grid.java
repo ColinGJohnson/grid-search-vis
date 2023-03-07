@@ -8,7 +8,6 @@ public class Grid<T extends GridNode> {
     private List<List<T>> grid;
     private final Supplier<T> defaultNodeSupplier;
 
-
     public Grid(Supplier<T> defaultNodeSupplier, int width, int height) {
         if (width < 1 || height < 1) {
             throw new IllegalArgumentException("Grid width and height must be > 1");

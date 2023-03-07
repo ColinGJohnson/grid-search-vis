@@ -6,9 +6,11 @@ public class GridSearchNode implements GridNode {
     private boolean visited;
     private final GridSearchNode previous;
 
+    private final int x;
+    private final int y;
+
     public GridSearchNode() {
-        this.previous = null;
-        this.visited = false;
+        this(null);
     }
 
     public GridSearchNode(GridSearchNode previous) {
