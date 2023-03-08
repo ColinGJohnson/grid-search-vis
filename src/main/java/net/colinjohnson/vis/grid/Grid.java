@@ -2,13 +2,12 @@ package net.colinjohnson.vis.grid;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class Grid<T extends GridNode> {
     private List<List<T>> grid;
-    private final Supplier<T> defaultNodeSupplier;
+    private final GridNodeSupplier<T> defaultNodeSupplier;
 
-    public Grid(Supplier<T> defaultNodeSupplier, int width, int height) {
+    public Grid(GridNodeSupplier<T> defaultNodeSupplier, int width, int height) {
         if (width < 1 || height < 1) {
             throw new IllegalArgumentException("Grid width and height must be > 1");
         }

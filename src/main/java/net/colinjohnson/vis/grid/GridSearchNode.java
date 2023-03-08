@@ -1,19 +1,15 @@
 package net.colinjohnson.vis.grid;
 
-import java.util.function.Supplier;
-
-public class GridSearchNode implements GridNode {
+public class GridSearchNode extends GridNode {
     private boolean visited;
     private final GridSearchNode previous;
 
-    private final int x;
-    private final int y;
-
-    public GridSearchNode() {
-        this(null);
+    public GridSearchNode(int x, int y) {
+        this(x, y, null);
     }
 
-    public GridSearchNode(GridSearchNode previous) {
+    public GridSearchNode(int x, int y, GridSearchNode previous) {
+        super(x, y);
         this.previous = previous;
         this.visited = false;
     }
@@ -41,11 +37,11 @@ public class GridSearchNode implements GridNode {
         return previous;
     }
 
-    public static class SupplyDefault implements Supplier<GridNode> {
+    public static class DefaultSupplier implements GridNodeSupplier<GridSearchNode> {
 
         @Override
-        public GridNode get() {
-            return new GridSearchNode()
+        public GridSearchNode get(int x, int y) {
+            return new GridSearchNode(x, y);
         }
     }
 }

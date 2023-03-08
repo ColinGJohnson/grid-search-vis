@@ -3,14 +3,16 @@ package net.colinjohnson.vis.grid;
 import net.colinjohnson.vis.IterativeMaze;
 import net.colinjohnson.vis.MazePosition;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 public class GridSearch {
     PriorityQueue<GridSearchNode> searchQueue;
     Grid<GridSearchNode> grid;
+
+    public GridSearch() {
+        // TODO: take grid and start position as parameters
+        grid = new Grid<>(new GridSearchNode.DefaultSupplier(), 100, 100);
+    }
 
     public void search() {
 
@@ -34,10 +36,21 @@ public class GridSearch {
      * Get search actions that can be taken from the given search node
      */
     public List<GridSearchNode> expand(Grid<GridSearchNode> grid, GridSearchNode gridSearchNode) {
-        return Collections.emptyList();
+        List<GridSearchNode> adjacent = new ArrayList<>();
+
+        GridSearchNode node = grid.getNode(gridSearchNode.);
+
+        if (!node.isVisited()) {
+
+            // TODO: use node factory to ensure nodes are always added to grid
+            adjacent.add(node);
+            grid.setNode(node);
+        }
+
 
         // expand adjacent nodes which have not yet been visited
         // TODO: Allow for other expand functions
+
     }
 
 
