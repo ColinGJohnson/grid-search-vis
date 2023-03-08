@@ -24,14 +24,25 @@ public class GridSearch {
     /**
      * Take one step forward in the search.
      */
-    public void Step() {
+    public void step() {
         GridSearchNode node = searchQueue.poll();
         searchQueue.addAll(expand(grid, node));
     }
 
 
+    /**
+     * Get search actions that can be taken from the given search node
+     */
     public List<GridSearchNode> expand(Grid<GridSearchNode> grid, GridSearchNode gridSearchNode) {
         return Collections.emptyList();
+
+        // expand adjacent nodes which have not yet been visited
+        // TODO: Allow for other expand functions
+    }
+
+
+    public List<GridSearchNode> getAdjacentNodes(Grid<GridSearchNode> grid, GridSearchNode gridSearchNode) {
+
     }
 
 
