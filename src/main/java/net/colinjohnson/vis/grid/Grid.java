@@ -2,6 +2,7 @@ package net.colinjohnson.vis.grid;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Grid<T extends GridNode> {
     private List<List<T>> grid;
@@ -9,7 +10,7 @@ public class Grid<T extends GridNode> {
 
     public Grid(GridNodeSupplier<T> defaultNodeSupplier, int width, int height) {
         if (width < 1 || height < 1) {
-            throw new IllegalArgumentException("Grid width and height must be > 1");
+            throw new IllegalArgumentException("Grid width and height must be > 1.");
         }
         this.defaultNodeSupplier = defaultNodeSupplier;
         clearGrid();
@@ -24,17 +25,27 @@ public class Grid<T extends GridNode> {
             List<T> column = new ArrayList<>();
             grid.add(column);
             for (int y = 0; y < getHeight(); y++) {
-                column.add(defaultNodeSupplier.get());
+                column.add(defaultNodeSupplier.get(x, y));
             }
         }
     }
 
-    public void setNode(int x, int y, T node) {
-        grid.get(x).set(y, node);
+    public void setNode(T node) {
+        if (withinGrid(node.getX(), node.getY())) {
+            throw new IllegalArgumentException("Node is not within the grid boundary.");
+        }
+        grid.get(node.getX()).set(node.getY(), node);
     }
 
-    public T getNode(int x, int y) {
-        return grid.get(x).get(y);
+    public Optional<T> getNode(int x, int y) {
+        if (!withinGrid(x, y)) {
+            return Optional.empty();
+        }
+        return Optional.of(grid.get(x).get(y));
+    }
+
+    public boolean withinGrid(int x, int y) {
+        return (x >= 0 && x < getWidth() && y >= 0 || y < getHeight());
     }
 
     public int getWidth() {
