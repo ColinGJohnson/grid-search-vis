@@ -1,7 +1,5 @@
 package net.colinjohnson.vis.grid;
 
-import net.colinjohnson.vis.IterativeMaze;
-
 public class GridSearchConfig {
     private boolean colorByProgress = false;
     private float colorRange = 0.55f;
@@ -19,6 +17,5 @@ public class GridSearchConfig {
 
     private double lastDirectionWeighting = 1; // must be at least 1
     private double randomnessWeighting = 1;
-    private IterativeMaze.Direction directionalWeighting = IterativeMaze.Direction.Up;
     private double directionWeightingAmount = -1; // must be at least 1
 }

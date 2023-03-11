@@ -3,11 +3,10 @@ package net.colinjohnson.vis.grid;
 import java.util.*;
 
 public class GridSearch {
-    PriorityQueue<GridSearchNode> searchQueue;
-    Grid<GridSearchNode> grid;
+    private final PriorityQueue<GridSearchNode> searchQueue;
+    private final Grid<GridSearchNode> grid;
 
     public GridSearch(Comparator<GridSearchNode> gridSearchNodeComparator) {
-        // TODO: take grid and start position as parameters
         grid = new Grid<>(new GridSearchNode.DefaultSupplier(), 100, 100);
         searchQueue = new PriorityQueue<>(gridSearchNodeComparator);
     }
@@ -18,9 +17,6 @@ public class GridSearch {
         }
     }
 
-    /**
-     * Take one step forward in the search.
-     */
     public void step() {
         if (searchQueue.isEmpty()) {
             throw new IllegalStateException("Can't proceed with search because queue is empty.");
@@ -29,9 +25,6 @@ public class GridSearch {
         searchQueue.addAll(expand(grid, node));
     }
 
-    /**
-     * Get search actions that can be taken from the given search node
-     */
     public List<GridSearchNode> expand(Grid<GridSearchNode> grid, GridSearchNode node) {
         List<GridSearchNode> actions = new ArrayList<>();
 
@@ -58,5 +51,9 @@ public class GridSearch {
         }
 
         return adjacent;
+    }
+
+    public Grid<GridSearchNode> getGrid() {
+        return grid;
     }
 }
