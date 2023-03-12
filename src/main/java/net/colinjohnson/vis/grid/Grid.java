@@ -37,15 +37,22 @@ public class Grid<T extends GridNode> {
         grid.get(node.getX()).set(node.getY(), node);
     }
 
-    public Optional<T> getNode(int x, int y) {
+    public T getNode(int x, int y) {
+        if (!withinGrid(x, y)) {
+            throw new IndexOutOfBoundsException("Specified coordinates are outside of the grid");
+        }
+        return grid.get(x).get(y);
+    }
+
+    public Optional<T> getNodeOptional(int x, int y) {
         if (!withinGrid(x, y)) {
             return Optional.empty();
         }
-        return Optional.of(grid.get(x).get(y));
+        return Optional.of(getNode(x, y));
     }
 
     public boolean withinGrid(int x, int y) {
-        return (x >= 0 && x < getWidth() && y >= 0 || y < getHeight());
+        return (x >= 0 && x < getWidth() && y >= 0 && y < getHeight());
     }
 
     public int getWidth() {

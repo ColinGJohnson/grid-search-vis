@@ -7,6 +7,7 @@ import java.util.Comparator;
 public class DepthFirstComparator implements Comparator<GridSearchNode> {
     @Override
     public int compare(GridSearchNode n1, GridSearchNode n2) {
-        return n1.getPathLength().compareTo(n2.getPathLength());
+        if (n1 == n2) return 0;
+        return -Integer.compare(n1.getPathLength(), n2.getPathLength());
     }
 }

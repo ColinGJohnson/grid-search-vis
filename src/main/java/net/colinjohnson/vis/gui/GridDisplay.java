@@ -9,7 +9,7 @@ import java.awt.*;
 public class GridDisplay<T extends GridNode> extends JPanel {
     Grid<T> grid;
     boolean showGridLines = true;
-    double scale = 10;
+    double scale = 5;
 
     public GridDisplay(Grid<T> grid) {
         super();
@@ -31,7 +31,7 @@ public class GridDisplay<T extends GridNode> extends JPanel {
         // fill grid squares
         for (int y = 0; y < grid.getHeight(); y++) {
             for (int x = 0; x < grid.getWidth(); x++) {
-                g.setColor(grid.getNode(x, y).map(GridNode::getColor).orElse(Color.RED));
+                g.setColor(grid.getNodeOptional(x, y).map(GridNode::getColor).orElse(Color.RED));
                 g.fillRect((int) (XMin + x * scale), (int) (YMin + y * scale), (int) scale, (int) scale);
             }
         }

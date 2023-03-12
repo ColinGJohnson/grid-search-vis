@@ -2,10 +2,7 @@ package net.colinjohnson.vis.grid;
 
 public class GridSearchConfig {
     private boolean colorByProgress = false;
-    private float colorRange = 0.55f;
-    private float colorShift = 0.5f;
-    private float saturation = 0.7f;
-    private float brightness = 0.9f;
+
 
     private boolean showGeneration = true;
     private boolean showGrid = false;

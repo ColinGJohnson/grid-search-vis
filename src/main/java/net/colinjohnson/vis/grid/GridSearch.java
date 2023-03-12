@@ -7,14 +7,17 @@ public class GridSearch {
     private final Grid<GridSearchNode> grid;
 
     public GridSearch(Comparator<GridSearchNode> gridSearchNodeComparator) {
-        grid = new Grid<>(new GridSearchNode.DefaultSupplier(), 100, 100);
+        grid = new Grid<>(new GridSearchNode.DefaultSupplier(), 200, 200);
         searchQueue = new PriorityQueue<>(gridSearchNodeComparator);
+
+        // start with the top left square
+        GridSearchNode topLeft = grid.getNode(0, 0);
+        topLeft.visit();
+        searchQueue.add(topLeft);
     }
 
-    public void search() {
-        while (!searchQueue.isEmpty()) {
-            step();
-        }
+    public boolean done() {
+        return searchQueue.isEmpty();
     }
 
     public void step() {
@@ -22,31 +25,29 @@ public class GridSearch {
             throw new IllegalStateException("Can't proceed with search because queue is empty.");
         }
         GridSearchNode node = searchQueue.poll();
-        searchQueue.addAll(expand(grid, node));
-    }
 
-    public List<GridSearchNode> expand(Grid<GridSearchNode> grid, GridSearchNode node) {
-        List<GridSearchNode> actions = new ArrayList<>();
+        if (node.isUnvisited()) {
+            throw new IllegalStateException("Encountered unvisited node in search queue.");
+        }
 
         // expand adjacent nodes which have not yet been visited
         for (GridSearchNode adjacent : getAdjacentNodes(grid, node)) {
-            if (!adjacent.isVisited()) {
+            if (adjacent.isUnvisited()) {
+                adjacent.visit(node);
                 searchQueue.add(adjacent);
-                grid.setNode(adjacent);
             }
         }
-
-        return actions;
     }
 
-    public List<GridSearchNode> getAdjacentNodes(Grid<GridSearchNode> grid, GridSearchNode node) {
+    private List<GridSearchNode> getAdjacentNodes(Grid<GridSearchNode> grid, GridSearchNode node) {
         List<GridSearchNode> adjacent = new ArrayList<>();
         Set<Integer> deltas = Set.of(-1, 0, 1);
 
         for (int dx: deltas) {
             for (int dy: deltas) {
-                if (dx == 0 && dy == 0) continue;
-                grid.getNode(node.getX() + dx, node.getY() + dy).ifPresent(adjacent::add);
+                // don't add the same node, or nodes on the diagonals
+                if ((dx == 0 && dy == 0) || (Math.abs(dx) > 0 && Math.abs(dy) > 0)) continue;
+                grid.getNodeOptional(node.getX() + dx, node.getY() + dy).ifPresent(adjacent::add);
             }
         }
 
