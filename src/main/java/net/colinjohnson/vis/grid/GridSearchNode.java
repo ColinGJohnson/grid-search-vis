@@ -53,9 +53,7 @@ public class GridSearchNode extends GridNode {
     }
 
     @Override
-    public Color getColor() {
-        //return visited ? Color.white : Color.black;
-
+    public Color getColor(int max) {
         float colorRange = 1f;
         float colorShift = 0f;
         float saturation = 0.7f;
@@ -65,7 +63,7 @@ public class GridSearchNode extends GridNode {
             return Color.black;
         }
 
-        return Color.getHSBColor(colorShift + (colorRange *  ((float)getPathLength() / 1000)), saturation, brightness);
+        return Color.getHSBColor(colorShift + (colorRange *  ((float)getPathLength() / max)), saturation, brightness);
     }
 
     public static class DefaultSupplier implements GridNodeSupplier<GridSearchNode> {

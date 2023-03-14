@@ -19,5 +19,5 @@ public abstract class GridNode {
         return y;
     }
 
-    public abstract Color getColor();
+    public abstract Color getColor(int max);
 }

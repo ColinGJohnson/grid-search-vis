@@ -5,9 +5,10 @@ import java.util.*;
 public class GridSearch {
     private final PriorityQueue<GridSearchNode> searchQueue;
     private final Grid<GridSearchNode> grid;
+    private int maxQueue;
 
     public GridSearch(Comparator<GridSearchNode> gridSearchNodeComparator) {
-        grid = new Grid<>(new GridSearchNode.DefaultSupplier(), 200, 200);
+        grid = new Grid<>(new GridSearchNode.DefaultSupplier(), 400, 400);
         searchQueue = new PriorityQueue<>(gridSearchNodeComparator);
 
         // start with the top left square
@@ -35,6 +36,7 @@ public class GridSearch {
             if (adjacent.isUnvisited()) {
                 adjacent.visit(node);
                 searchQueue.add(adjacent);
+                maxQueue = searchQueue.size() > maxQueue ? maxQueue + 1 : maxQueue;
             }
         }
     }
@@ -56,5 +58,9 @@ public class GridSearch {
 
     public Grid<GridSearchNode> getGrid() {
         return grid;
+    }
+
+    public int getMaxQueue() {
+        return maxQueue;
     }
 }
