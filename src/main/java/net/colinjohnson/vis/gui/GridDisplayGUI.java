@@ -8,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GridDisplayGUI extends JFrame {
     private static final Logger log = LoggerFactory.getLogger(GridDisplayGUI.class);
@@ -23,36 +21,30 @@ public class GridDisplayGUI extends JFrame {
     private JSlider colorShiftSlider;
     private JSlider saturationSlider;
     private JSlider brightnessSlider;
+    private JLabel colorShiftLabel;
+    private JLabel colorRangeLabel;
+    private JLabel brightnessLabel;
+    private JLabel saturationLabel;
 
 
     public GridDisplayGUI() {
-        algorithmSelector.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
 
-            }
+        startButton.addActionListener(e -> {
+
         });
 
-        startButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        resetButton.addActionListener(e -> {
 
-            }
         });
 
-        resetButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        saveAsImageButton.addActionListener(e -> {
 
-            }
         });
 
-        saveAsImageButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        colorShiftSlider.addChangeListener(new SliderLabelChangeListener(colorShiftSlider, colorShiftLabel));
+        colorRangeSlider.addChangeListener(new SliderLabelChangeListener(colorRangeSlider, colorRangeLabel));
+        brightnessSlider.addChangeListener(new SliderLabelChangeListener(brightnessSlider, brightnessLabel));
+        saturationSlider.addChangeListener(new SliderLabelChangeListener(saturationSlider, saturationLabel));
     }
 
     public static void main(String[] args) {
