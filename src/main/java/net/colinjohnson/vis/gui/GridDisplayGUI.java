@@ -19,10 +19,35 @@ public class GridDisplayGUI extends JFrame {
     private JButton startButton;
     private JComboBox<SearchAlgorithm> algorithmSelector;
     private GridDisplayPanel<GridSearchNode> gridDisplayPanel;
+    private JSlider colorRangeSlider;
+    private JSlider colorShiftSlider;
+    private JSlider saturationSlider;
+    private JSlider brightnessSlider;
 
 
     public GridDisplayGUI() {
         algorithmSelector.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        startButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
+
+        saveAsImageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -42,8 +67,9 @@ public class GridDisplayGUI extends JFrame {
             GridDisplayGUI gridDisplayGUI = new GridDisplayGUI();
             gridDisplayGUI.setContentPane(gridDisplayGUI.rootPanel);
             gridDisplayGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            gridDisplayGUI.setSize(1920, 1080);
+            gridDisplayGUI.setSize(1000, 700);
             gridDisplayGUI.setTitle("Grid Search Visualization");
+            gridDisplayGUI.setLocationRelativeTo(null);
             gridDisplayGUI.setVisible(true);
         });
     }
@@ -51,5 +77,6 @@ public class GridDisplayGUI extends JFrame {
     private void createUIComponents() {
         GridSearch gridSearch = new GridSearch(new RandomDepthFirstComparator());
         gridDisplayPanel = new GridDisplayPanel<>(gridSearch.getGrid(), gridSearch);
+
     }
 }

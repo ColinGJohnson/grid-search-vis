@@ -14,7 +14,7 @@ public class Main {
         // create a new window and set its size
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1920, 1080);
+        frame.setSize(1000, 700);
 
         // create and add a panel for drawing graphics to
         GridSearch gridSearch = new GridSearch(new RandomDepthFirstComparator());
