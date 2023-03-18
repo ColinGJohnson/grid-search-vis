@@ -1,7 +1,24 @@
 package net.colinjohnson.vis.search;
 
+import net.colinjohnson.vis.grid.GridSearchNode;
+
+import java.util.Comparator;
+
 public enum SearchAlgorithm {
-    BFS,
-    DFS,
-    RANDOM_DFS
+    RANDOM_DFS("Random Depth First Search", new RandomDepthFirstComparator()),
+    DFS("Depth First Search", new DepthFirstComparator()),
+    BFS("Breadth First Search", new BreadthFirstComparator());
+
+    final String name;
+    final Comparator<GridSearchNode> comparator;
+
+    SearchAlgorithm(String name, Comparator<GridSearchNode> comparator) {
+        this.name = name;
+        this.comparator = comparator;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

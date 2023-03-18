@@ -11,9 +11,14 @@ class SliderLabelChangeListener implements ChangeListener {
     public SliderLabelChangeListener(JSlider slider, JLabel label) {
         this.slider = slider;
         this.label = label;
+        updateText();
     }
     @Override
     public void stateChanged(ChangeEvent e) {
+        updateText();
+    }
+
+    private void updateText() {
         label.setText(String.format("%.2f", slider.getValue() / 100f));
     }
 }

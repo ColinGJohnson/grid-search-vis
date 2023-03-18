@@ -25,10 +25,13 @@ public class GridDisplayGUI extends JFrame {
     private JLabel colorRangeLabel;
     private JLabel brightnessLabel;
     private JLabel saturationLabel;
+    private JSpinner widthSpinner;
+    private JSpinner spinner1;
+    private JSpinner spinner2;
+    private JCheckBox showGridLinesCheckBox;
 
 
     public GridDisplayGUI() {
-
         startButton.addActionListener(e -> {
 
         });
@@ -50,9 +53,8 @@ public class GridDisplayGUI extends JFrame {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
-                 UnsupportedLookAndFeelException e) {
-            //log.error("Failed to set system look and feel", e);
+        } catch (ReflectiveOperationException | UnsupportedLookAndFeelException e) {
+            log.error("Failed to set system look and feel", e);
         }
 
         SwingUtilities.invokeLater(() -> {
@@ -69,6 +71,6 @@ public class GridDisplayGUI extends JFrame {
     private void createUIComponents() {
         GridSearch gridSearch = new GridSearch(new RandomDepthFirstComparator());
         gridDisplayPanel = new GridDisplayPanel<>(gridSearch.getGrid(), gridSearch);
-
+        algorithmSelector = new JComboBox<>(SearchAlgorithm.values());
     }
 }
