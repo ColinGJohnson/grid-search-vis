@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.awt.*;
+import java.net.URL;
 
 public class GridDisplayGUI extends JFrame {
     private static final Logger log = LoggerFactory.getLogger(GridDisplayGUI.class);
@@ -26,24 +28,12 @@ public class GridDisplayGUI extends JFrame {
     private JLabel brightnessLabel;
     private JLabel saturationLabel;
     private JSpinner widthSpinner;
-    private JSpinner spinner1;
-    private JSpinner spinner2;
+    private JSpinner heightSpinner;
+    private JSpinner scaleSpinner;
     private JCheckBox showGridLinesCheckBox;
 
 
     public GridDisplayGUI() {
-        startButton.addActionListener(e -> {
-
-        });
-
-        resetButton.addActionListener(e -> {
-
-        });
-
-        saveAsImageButton.addActionListener(e -> {
-
-        });
-
         colorShiftSlider.addChangeListener(new SliderLabelChangeListener(colorShiftSlider, colorShiftLabel));
         colorRangeSlider.addChangeListener(new SliderLabelChangeListener(colorRangeSlider, colorRangeLabel));
         brightnessSlider.addChangeListener(new SliderLabelChangeListener(brightnessSlider, brightnessLabel));
@@ -54,15 +44,18 @@ public class GridDisplayGUI extends JFrame {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (ReflectiveOperationException | UnsupportedLookAndFeelException e) {
-            log.error("Failed to set system look and feel", e);
+            //log.error("Failed to set system look and feel", e);
         }
 
         SwingUtilities.invokeLater(() -> {
             GridDisplayGUI gridDisplayGUI = new GridDisplayGUI();
             gridDisplayGUI.setContentPane(gridDisplayGUI.rootPanel);
             gridDisplayGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            gridDisplayGUI.setSize(1000, 700);
+            gridDisplayGUI.setSize(1200, 900);
             gridDisplayGUI.setTitle("Grid Search Visualization");
+            URL ImageUrl = gridDisplayGUI.getClass().getClassLoader().getResource("window_icon_64x64.png");
+            Image image = Toolkit.getDefaultToolkit().getImage(ImageUrl);
+            gridDisplayGUI.setIconImage(image);
             gridDisplayGUI.setLocationRelativeTo(null);
             gridDisplayGUI.setVisible(true);
         });
@@ -73,4 +66,5 @@ public class GridDisplayGUI extends JFrame {
         gridDisplayPanel = new GridDisplayPanel<>(gridSearch.getGrid(), gridSearch);
         algorithmSelector = new JComboBox<>(SearchAlgorithm.values());
     }
+
 }
