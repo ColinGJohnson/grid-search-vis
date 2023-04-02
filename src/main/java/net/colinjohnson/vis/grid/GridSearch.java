@@ -4,15 +4,26 @@ import java.util.*;
 
 public class GridSearch {
     private final PriorityQueue<GridSearchNode> searchQueue;
-    private final Grid<GridSearchNode> grid;
+    private final Grid<GridSearchNode> searchGrid;
+    private final Grid<T> grid;
     private int maxQueue;
 
-    public GridSearch(Comparator<GridSearchNode> gridSearchNodeComparator) {
-        grid = new Grid<>(new GridSearchNode.DefaultSupplier(), 400, 400);
+    public GridSearch(Comparator<GridSearchNode> gridSearchNodeComparator, Grid<>) {
+        searchGrid = new Grid<>(new GridSearchNode.DefaultSupplier(), 400, 400);
         searchQueue = new PriorityQueue<>(gridSearchNodeComparator);
 
         // start with the top left square
-        GridSearchNode topLeft = grid.getNode(0, 0);
+        GridSearchNode topLeft = searchGrid.getNode(0, 0);
+        topLeft.visit();
+        searchQueue.add(topLeft);
+    }
+
+    public GridSearch(Comparator<GridSearchNode> gridSearchNodeComparator) {
+        searchGrid = new Grid<>(new GridSearchNode.DefaultSupplier(), 400, 400);
+        searchQueue = new PriorityQueue<>(gridSearchNodeComparator);
+
+        // start with the top left square
+        GridSearchNode topLeft = searchGrid.getNode(0, 0);
         topLeft.visit();
         searchQueue.add(topLeft);
     }
@@ -32,7 +43,7 @@ public class GridSearch {
         }
 
         // expand adjacent nodes which have not yet been visited
-        for (GridSearchNode adjacent : getAdjacentNodes(grid, node)) {
+        for (GridSearchNode adjacent : getAdjacentNodes(searchGrid, node)) {
             if (adjacent.isUnvisited()) {
                 adjacent.visit(node);
                 searchQueue.add(adjacent);
@@ -56,8 +67,8 @@ public class GridSearch {
         return adjacent;
     }
 
-    public Grid<GridSearchNode> getGrid() {
-        return grid;
+    public Grid<GridSearchNode> getSearchGrid() {
+        return searchGrid;
     }
 
     public int getMaxQueue() {

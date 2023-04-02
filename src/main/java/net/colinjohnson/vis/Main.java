@@ -18,7 +18,7 @@ public class Main {
 
         // create and add a panel for drawing graphics to
         GridSearch gridSearch = new GridSearch(new RandomDepthFirstComparator());
-        JPanel panel = new GridDisplayPanel<>(gridSearch.getGrid(), gridSearch);
+        JPanel panel = new GridDisplayPanel<>(gridSearch.getSearchGrid(), gridSearch);
         frame.add(panel);
 
         // center the window on the screen

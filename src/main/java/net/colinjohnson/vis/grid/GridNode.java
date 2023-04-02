@@ -19,5 +19,7 @@ public abstract class GridNode {
         return y;
     }
 
-    public abstract Color getColor(int max);
+    public abstract Color getColor();
+
+    public abstract GridNodeSupplier<? extends GridNode> getSupplier();
 }

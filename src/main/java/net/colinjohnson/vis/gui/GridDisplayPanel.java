@@ -2,21 +2,18 @@ package net.colinjohnson.vis.gui;
 
 import net.colinjohnson.vis.grid.Grid;
 import net.colinjohnson.vis.grid.GridNode;
-import net.colinjohnson.vis.grid.GridSearch;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GridDisplayPanel<T extends GridNode> extends JPanel {
-    GridSearch search;
-    Grid<T> grid;
-    boolean showGridLines = false;
-    double scale = 2;
+    private Grid<T> grid;
+    private boolean showGridLines = false;
+    private double scale = 2;
 
-    public GridDisplayPanel(Grid<T> grid, GridSearch search) {
+    public GridDisplayPanel(Grid<T> grid) {
         super();
         this.grid = grid;
-        this.search = search;
     }
 
     public void paintComponent(Graphics g) {
@@ -34,7 +31,7 @@ public class GridDisplayPanel<T extends GridNode> extends JPanel {
         // fill grid squares
         for (int y = 0; y < grid.getHeight(); y++) {
             for (int x = 0; x < grid.getWidth(); x++) {
-                g.setColor(grid.getNodeOptional(x, y).map(n -> n.getColor(search.getMaxQueue())).orElse(Color.RED));
+                g.setColor(grid.getNodeOptional(x, y).map(GridNode::getColor).orElse(Color.BLACK));
                 g.fillRect((int) (XMin + x * scale), (int) (YMin + y * scale), (int) scale, (int) scale);
             }
         }
@@ -52,5 +49,29 @@ public class GridDisplayPanel<T extends GridNode> extends JPanel {
                 g.drawLine(x, YMax, x, YMin);
             }
         }
+    }
+
+    public Grid<T> getGrid() {
+        return grid;
+    }
+
+    public void setGrid(Grid<T> grid) {
+        this.grid = grid;
+    }
+
+    public boolean isShowGridLines() {
+        return showGridLines;
+    }
+
+    public void setShowGridLines(boolean showGridLines) {
+        this.showGridLines = showGridLines;
+    }
+
+    public double getScale() {
+        return scale;
+    }
+
+    public void setScale(double scale) {
+        this.scale = scale;
     }
 }

@@ -1,3 +1,11 @@
 # grid-search-vis
 
-Grid-based search algorithm visualizations.
+Interactive visualizations for grid-based search algorithms.
+
+### Usage
+
+
+
+### Setup
+
+

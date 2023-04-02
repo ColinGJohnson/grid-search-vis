@@ -36,23 +36,31 @@ public class GridDisplayGUI extends JFrame {
     private JSpinner scaleSpinner;
     private JCheckBox showGridLinesCheckBox;
 
-
     public GridDisplayGUI() {
         $$$setupUI$$$();
         colorShiftSlider.addChangeListener(new SliderLabelChangeListener(colorShiftSlider, colorShiftLabel));
         colorRangeSlider.addChangeListener(new SliderLabelChangeListener(colorRangeSlider, colorRangeLabel));
         brightnessSlider.addChangeListener(new SliderLabelChangeListener(brightnessSlider, brightnessLabel));
         saturationSlider.addChangeListener(new SliderLabelChangeListener(saturationSlider, saturationLabel));
+        startButton.addActionListener(e -> {
+            if (e.getSource() == startButton) {
+                System.out.println("test");
+                GridSearchWorker
+                //gridDisplayPanel.startSearch((SearchAlgorithm) algorithmSelector.getSelectedItem());
+            }
+        });
     }
 
+    /**
+     * Starts the app on the event dispatch thread.
+     */
     public static void main(String[] args) {
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ReflectiveOperationException | UnsupportedLookAndFeelException e) {
-            //log.error("Failed to set system look and feel", e);
-        }
-
         SwingUtilities.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ReflectiveOperationException | UnsupportedLookAndFeelException e) {
+                log.error("Failed to set system look and feel. The default will be used instead.", e);
+            }
             GridDisplayGUI gridDisplayGUI = new GridDisplayGUI();
             gridDisplayGUI.setContentPane(gridDisplayGUI.rootPanel);
             gridDisplayGUI.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,7 +76,7 @@ public class GridDisplayGUI extends JFrame {
 
     private void createUIComponents() {
         GridSearch gridSearch = new GridSearch(new RandomDepthFirstComparator());
-        gridDisplayPanel = new GridDisplayPanel<>(gridSearch.getGrid(), gridSearch);
+        gridDisplayPanel = new GridDisplayPanel<>(gridSearch.getSearchGrid());
         algorithmSelector = new JComboBox<>(SearchAlgorithm.values());
     }
 
@@ -226,7 +234,7 @@ public class GridDisplayGUI extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         panel3.add(panel5, gbc);
         final JLabel label4 = new JLabel();
-        label4.setText("Saturation:");
+        label4.setText("Saturation: ");
         panel5.add(label4, BorderLayout.WEST);
         saturationLabel = new JLabel();
         saturationLabel.setText("Label");
@@ -239,7 +247,7 @@ public class GridDisplayGUI extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         panel3.add(panel6, gbc);
         final JLabel label5 = new JLabel();
-        label5.setText("Brightness:");
+        label5.setText("Brightness: ");
         panel6.add(label5, BorderLayout.WEST);
         brightnessLabel = new JLabel();
         brightnessLabel.setText("Label");
@@ -252,7 +260,7 @@ public class GridDisplayGUI extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         panel3.add(panel7, gbc);
         final JLabel label6 = new JLabel();
-        label6.setText("Range:");
+        label6.setText("Range: ");
         panel7.add(label6, BorderLayout.WEST);
         colorRangeLabel = new JLabel();
         colorRangeLabel.setText("Label");
