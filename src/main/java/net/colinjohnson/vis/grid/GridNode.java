@@ -20,6 +20,4 @@ public abstract class GridNode {
     }
 
     public abstract Color getColor();
-
-    public abstract GridNodeSupplier<? extends GridNode> getSupplier();
 }

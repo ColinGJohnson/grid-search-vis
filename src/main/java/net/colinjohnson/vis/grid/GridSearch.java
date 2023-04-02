@@ -5,11 +5,12 @@ import java.util.*;
 public class GridSearch {
     private final PriorityQueue<GridSearchNode> searchQueue;
     private final Grid<GridSearchNode> searchGrid;
-    private final Grid<T> grid;
+    private final Grid<ObstacleNode> obstacleGrid;
     private int maxQueue;
 
-    public GridSearch(Comparator<GridSearchNode> gridSearchNodeComparator, Grid<>) {
-        searchGrid = new Grid<>(new GridSearchNode.DefaultSupplier(), 400, 400);
+    public GridSearch(Comparator<GridSearchNode> gridSearchNodeComparator, Grid<ObstacleNode> obstacleGrid) {
+        this.obstacleGrid = obstacleGrid;
+        searchGrid = new Grid<>(GridSearchNode.getSupplier(), obstacleGrid.getWidth(), obstacleGrid.getHeight());
         searchQueue = new PriorityQueue<>(gridSearchNodeComparator);
 
         // start with the top left square
@@ -18,18 +19,8 @@ public class GridSearch {
         searchQueue.add(topLeft);
     }
 
-    public GridSearch(Comparator<GridSearchNode> gridSearchNodeComparator) {
-        searchGrid = new Grid<>(new GridSearchNode.DefaultSupplier(), 400, 400);
-        searchQueue = new PriorityQueue<>(gridSearchNodeComparator);
-
-        // start with the top left square
-        GridSearchNode topLeft = searchGrid.getNode(0, 0);
-        topLeft.visit();
-        searchQueue.add(topLeft);
-    }
-
-    public boolean done() {
-        return searchQueue.isEmpty();
+    public boolean hasNextStep() {
+        return !searchQueue.isEmpty();
     }
 
     public void step() {

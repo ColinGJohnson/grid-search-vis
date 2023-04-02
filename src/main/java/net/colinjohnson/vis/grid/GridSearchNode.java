@@ -64,20 +64,11 @@ public class GridSearchNode extends GridNode {
         }
 
         // TODO: color by max queue size
-        return Color.getHSBColor(colorShift + (colorRange *  ((float)getPathLength() / 1000)), saturation, brightness);
+        float hue = colorShift + (colorRange *  ((float)getPathLength() / 1000));
+        return Color.getHSBColor(hue, saturation, brightness);
     }
 
-    @Override
-    public GridNodeSupplier<GridSearchNode> getSupplier() {
-        // return a gridnode supplier that returns a new GridSearchNode
-        return new DefaultSupplier();
-    }
-
-    private static class DefaultSupplier implements GridNodeSupplier<GridSearchNode> {
-
-        @Override
-        public GridSearchNode get(int x, int y) {
-            return new GridSearchNode(x, y);
-        }
+    public static GridNodeSupplier<GridSearchNode> getSupplier() {
+        return GridSearchNode::new;
     }
 }

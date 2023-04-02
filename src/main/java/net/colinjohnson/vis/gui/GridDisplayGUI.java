@@ -1,8 +1,9 @@
 package net.colinjohnson.vis.gui;
 
+import net.colinjohnson.vis.grid.Grid;
 import net.colinjohnson.vis.grid.GridSearch;
 import net.colinjohnson.vis.grid.GridSearchNode;
-import net.colinjohnson.vis.search.RandomDepthFirstComparator;
+import net.colinjohnson.vis.grid.ObstacleNode;
 import net.colinjohnson.vis.search.SearchAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,10 +14,14 @@ import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.Locale;
+import java.util.Optional;
 
 public class GridDisplayGUI extends JFrame {
     private static final Logger log = LoggerFactory.getLogger(GridDisplayGUI.class);
+    private static final int DEFAULT_WIDTH = 500;
+    private static final int DEFAULT_HEIGHT = 500;
     private JPanel rootPanel;
     private JButton saveAsImageButton;
     private JButton resetButton;
@@ -44,16 +49,12 @@ public class GridDisplayGUI extends JFrame {
         saturationSlider.addChangeListener(new SliderLabelChangeListener(saturationSlider, saturationLabel));
         startButton.addActionListener(e -> {
             if (e.getSource() == startButton) {
-                System.out.println("test");
-                GridSearchWorker
-                //gridDisplayPanel.startSearch((SearchAlgorithm) algorithmSelector.getSelectedItem());
+                GridSearchWorker worker = new GridSearchWorker(gridDisplayPanel, getGridSearchWithSelectedValues());
+                worker.execute();
             }
         });
     }
 
-    /**
-     * Starts the app on the event dispatch thread.
-     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             try {
@@ -74,10 +75,29 @@ public class GridDisplayGUI extends JFrame {
         });
     }
 
+    private GridSearch getGridSearchWithSelectedValues() {
+        Comparator<GridSearchNode> comparator = Optional.ofNullable(algorithmSelector)
+                .map(selectedItem -> (SearchAlgorithm) selectedItem.getSelectedItem())
+                .map(SearchAlgorithm::getComparator)
+                .orElseGet(() -> {
+                    log.error("No search algorithm selected. Defaulting to RandomDepthFirstComparator.");
+                    return SearchAlgorithm.RANDOM_DFS.getComparator();
+                });
+
+        Grid<ObstacleNode> obstacleNodeGrid = new Grid<>(
+                ObstacleNode::new,
+                (int) widthSpinner.getValue(),
+                (int) heightSpinner.getValue()
+        );
+
+        return new GridSearch(comparator, obstacleNodeGrid);
+    }
+
     private void createUIComponents() {
-        GridSearch gridSearch = new GridSearch(new RandomDepthFirstComparator());
-        gridDisplayPanel = new GridDisplayPanel<>(gridSearch.getSearchGrid());
+        widthSpinner = new JSpinner(new SpinnerNumberModel(DEFAULT_WIDTH, 1, 100000, 1));
+        heightSpinner = new JSpinner(new SpinnerNumberModel(DEFAULT_HEIGHT, 1, 100000, 1));
         algorithmSelector = new JComboBox<>(SearchAlgorithm.values());
+        gridDisplayPanel = new GridDisplayPanel<>(getGridSearchWithSelectedValues().getSearchGrid());
     }
 
     /**
@@ -274,7 +294,6 @@ public class GridDisplayGUI extends JFrame {
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.BOTH;
         panel1.add(panel8, gbc);
-        widthSpinner = new JSpinner();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
@@ -283,7 +302,6 @@ public class GridDisplayGUI extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel8.add(widthSpinner, gbc);
-        heightSpinner = new JSpinner();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 2;

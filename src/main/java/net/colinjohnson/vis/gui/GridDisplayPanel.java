@@ -59,16 +59,8 @@ public class GridDisplayPanel<T extends GridNode> extends JPanel {
         this.grid = grid;
     }
 
-    public boolean isShowGridLines() {
-        return showGridLines;
-    }
-
     public void setShowGridLines(boolean showGridLines) {
         this.showGridLines = showGridLines;
-    }
-
-    public double getScale() {
-        return scale;
     }
 
     public void setScale(double scale) {

@@ -1,6 +1,8 @@
 package net.colinjohnson.vis;
 
+import net.colinjohnson.vis.grid.Grid;
 import net.colinjohnson.vis.grid.GridSearch;
+import net.colinjohnson.vis.grid.ObstacleNode;
 import net.colinjohnson.vis.gui.GridDisplayPanel;
 import net.colinjohnson.vis.search.RandomDepthFirstComparator;
 
@@ -17,8 +19,9 @@ public class Main {
         frame.setSize(1000, 700);
 
         // create and add a panel for drawing graphics to
-        GridSearch gridSearch = new GridSearch(new RandomDepthFirstComparator());
-        JPanel panel = new GridDisplayPanel<>(gridSearch.getSearchGrid(), gridSearch);
+        Grid<ObstacleNode> obstacleNodeGrid = new Grid<>(ObstacleNode::new, 100, 100);
+        GridSearch gridSearch = new GridSearch(new RandomDepthFirstComparator(), obstacleNodeGrid);
+        JPanel panel = new GridDisplayPanel<>(gridSearch.getSearchGrid());
         frame.add(panel);
 
         // center the window on the screen
@@ -29,7 +32,7 @@ public class Main {
         frame.setVisible(true);
 
         int steps = 0;
-        while (!gridSearch.done()) {
+        while (gridSearch.hasNextStep()) {
             gridSearch.step();
             steps++;
             if (steps % REPAINT_INTERVAL == 0) {

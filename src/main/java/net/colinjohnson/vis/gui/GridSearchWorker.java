@@ -1,25 +1,39 @@
 package net.colinjohnson.vis.gui;
 
 import net.colinjohnson.vis.grid.Grid;
+import net.colinjohnson.vis.grid.GridSearch;
+import net.colinjohnson.vis.grid.GridSearchNode;
 
 import javax.swing.*;
+import java.util.List;
 
-public class GridSearchWorker<T> extends SwingWorker<Void, Void> {
-    private Grid<T> grid;
-    private GridSearchAlgorithm<T> algorithm;
-    private GridDisplayPanel<T> displayPanel;
+public class GridSearchWorker extends SwingWorker<Grid<GridSearchNode>, Grid<GridSearchNode>> {
+    private final GridDisplayPanel<GridSearchNode> displayPanel;
+    private final GridSearch gridSearch;
 
-
-    public GridSearchWorker(Grid<T> grid, GridSearchAlgorithm<T> algorithm, GridDisplayPanel<T> displayPanel) {
-        this.grid = grid;
-        this.algorithm = algorithm;
+    public GridSearchWorker(GridDisplayPanel<GridSearchNode> displayPanel, GridSearch gridSearch) {
         this.displayPanel = displayPanel;
+        this.gridSearch = gridSearch;
     }
 
     @Override
-    protected Void doInBackground() throws Exception {
-        algorithm.search(grid);
-        return null;
+    protected Grid<GridSearchNode> doInBackground() {
+        final int PUBLISH_INTERVAL = 100;
+        int steps = 0;
+        while (gridSearch.hasNextStep()) {
+            gridSearch.step();
+            if (steps++ % PUBLISH_INTERVAL == 0) {
+                publish(gridSearch.getSearchGrid());
+            }
+        }
+        return gridSearch.getSearchGrid();
+    }
+
+    @Override
+    protected void process(List<Grid<GridSearchNode>> results) {
+        Grid<GridSearchNode> latestResult = results.get(results.size() - 1);
+        displayPanel.setGrid(latestResult);
+        displayPanel.repaint();
     }
 
     @Override

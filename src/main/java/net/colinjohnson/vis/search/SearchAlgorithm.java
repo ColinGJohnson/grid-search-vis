@@ -9,8 +9,8 @@ public enum SearchAlgorithm {
     DFS("Depth First Search", new DepthFirstComparator()),
     BFS("Breadth First Search", new BreadthFirstComparator());
 
-    final String name;
-    final Comparator<GridSearchNode> comparator;
+    private final String name;
+    private final Comparator<GridSearchNode> comparator;
 
     SearchAlgorithm(String name, Comparator<GridSearchNode> comparator) {
         this.name = name;
@@ -20,5 +20,9 @@ public enum SearchAlgorithm {
     @Override
     public String toString() {
         return name;
+    }
+
+    public Comparator<GridSearchNode> getComparator() {
+        return comparator;
     }
 }

@@ -8,6 +8,10 @@ public class ObstacleNode extends GridNode {
         super(x, y);
     }
 
+    public ObstacleNode(int x, int y) {
+        this(x, y, false);
+    }
+
     @Override
     public Color getColor() {
         return blocked ? Color.BLACK : Color.WHITE;
