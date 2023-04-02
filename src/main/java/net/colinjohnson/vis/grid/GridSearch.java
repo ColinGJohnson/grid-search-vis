@@ -10,7 +10,7 @@ public class GridSearch {
 
     public GridSearch(Comparator<GridSearchNode> gridSearchNodeComparator, Grid<ObstacleNode> obstacleGrid) {
         this.obstacleGrid = obstacleGrid;
-        searchGrid = new Grid<>(GridSearchNode.getSupplier(), obstacleGrid.getWidth(), obstacleGrid.getHeight());
+        searchGrid = new Grid<>(GridSearchNode::new, obstacleGrid.getWidth(), obstacleGrid.getHeight());
         searchQueue = new PriorityQueue<>(gridSearchNodeComparator);
 
         // start with the top left square

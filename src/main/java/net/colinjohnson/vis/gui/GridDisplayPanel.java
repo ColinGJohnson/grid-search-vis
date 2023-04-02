@@ -6,14 +6,16 @@ import net.colinjohnson.vis.grid.GridNode;
 import javax.swing.*;
 import java.awt.*;
 
-public class GridDisplayPanel<T extends GridNode> extends JPanel {
-    private Grid<T> grid;
+public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy<N>> extends JPanel {
+    private Grid<N> grid;
+    private C coloringStrategy;
     private boolean showGridLines = false;
     private double scale = 2;
 
-    public GridDisplayPanel(Grid<T> grid) {
+    public GridDisplayPanel(Grid<N> grid, C coloringStrategy) {
         super();
         this.grid = grid;
+        this.coloringStrategy = coloringStrategy;
     }
 
     public void paintComponent(Graphics g) {
@@ -31,7 +33,7 @@ public class GridDisplayPanel<T extends GridNode> extends JPanel {
         // fill grid squares
         for (int y = 0; y < grid.getHeight(); y++) {
             for (int x = 0; x < grid.getWidth(); x++) {
-                g.setColor(grid.getNodeOptional(x, y).map(GridNode::getColor).orElse(Color.BLACK));
+                g.setColor(coloringStrategy.getColor(grid, x, y));
                 g.fillRect((int) (XMin + x * scale), (int) (YMin + y * scale), (int) scale, (int) scale);
             }
         }
@@ -51,11 +53,11 @@ public class GridDisplayPanel<T extends GridNode> extends JPanel {
         }
     }
 
-    public Grid<T> getGrid() {
+    public Grid<N> getGrid() {
         return grid;
     }
 
-    public void setGrid(Grid<T> grid) {
+    public void setGrid(Grid<N> grid) {
         this.grid = grid;
     }
 
@@ -65,5 +67,13 @@ public class GridDisplayPanel<T extends GridNode> extends JPanel {
 
     public void setScale(double scale) {
         this.scale = scale;
+    }
+
+    public C getColoringStrategy() {
+        return coloringStrategy;
+    }
+
+    public void setColoringStrategy(C coloringStrategy) {
+        this.coloringStrategy = coloringStrategy;
     }
 }

@@ -8,17 +8,17 @@ import javax.swing.*;
 import java.util.List;
 
 public class GridSearchWorker extends SwingWorker<Grid<GridSearchNode>, Grid<GridSearchNode>> {
-    private final GridDisplayPanel<GridSearchNode> displayPanel;
+    private final GridDisplayPanel<GridSearchNode, SearchGridColoring> displayPanel;
     private final GridSearch gridSearch;
 
-    public GridSearchWorker(GridDisplayPanel<GridSearchNode> displayPanel, GridSearch gridSearch) {
+    public GridSearchWorker(GridDisplayPanel<GridSearchNode, SearchGridColoring> displayPanel, GridSearch gridSearch) {
         this.displayPanel = displayPanel;
         this.gridSearch = gridSearch;
     }
 
     @Override
     protected Grid<GridSearchNode> doInBackground() {
-        final int PUBLISH_INTERVAL = 100;
+        final int PUBLISH_INTERVAL = 10;
         int steps = 0;
         while (gridSearch.hasNextStep()) {
             gridSearch.step();

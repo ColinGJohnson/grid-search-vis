@@ -1,6 +1,5 @@
 package net.colinjohnson.vis.grid;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +11,6 @@ public class GridSearchNode extends GridNode {
     public GridSearchNode(int x, int y) {
         super(x, y);
         this.visited = false;
-    }
-
-    public GridSearchNode(int x, int y, GridSearchNode previous) {
-        this(x, y);
-        this.previous = previous;
-        this.pathLength = previous == null ? 0 : previous.pathLength + 1;
     }
 
     public List<GridSearchNode> getPath() {
@@ -50,25 +43,5 @@ public class GridSearchNode extends GridNode {
 
     public GridSearchNode getPrevious() {
         return previous;
-    }
-
-    @Override
-    public Color getColor() {
-        float colorRange = 1f;
-        float colorShift = 0f;
-        float saturation = 0.7f;
-        float brightness = 0.9f;
-
-        if (isUnvisited()) {
-            return Color.black;
-        }
-
-        // TODO: color by max queue size
-        float hue = colorShift + (colorRange *  ((float)getPathLength() / 1000));
-        return Color.getHSBColor(hue, saturation, brightness);
-    }
-
-    public static GridNodeSupplier<GridSearchNode> getSupplier() {
-        return GridSearchNode::new;
     }
 }
