@@ -18,6 +18,9 @@ class SliderLabelChangeListener implements ChangeListener {
         updateText();
     }
 
+    /**
+     * Updates the label to display the current value of the slider.
+     */
     private void updateText() {
         label.setText(String.format("%.2f", slider.getValue() / 100f));
     }

@@ -33,9 +33,9 @@ public class GridSearch {
             throw new IllegalStateException("Encountered unvisited node in search queue.");
         }
 
-        // expand adjacent nodes which have not yet been visited
+        // Expand adjacent nodes which have not yet been visited and are not blocked
         for (GridSearchNode adjacent : getAdjacentNodes(searchGrid, node)) {
-            if (adjacent.isUnvisited()) {
+            if (adjacent.isUnvisited() && !obstacleGrid.getNode(adjacent.getX(), adjacent.getY()).isBlocked()) {
                 adjacent.visit(node);
                 searchQueue.add(adjacent);
                 maxQueue = searchQueue.size() > maxQueue ? maxQueue + 1 : maxQueue;
@@ -43,18 +43,23 @@ public class GridSearch {
         }
     }
 
+    /**
+     * Returns a list of adjacent nodes to the given node. Adjacent nodes are nodes that are directly above, below,
+     * left, or right of the given node.
+     *
+     * @param grid The grid to search.
+     * @param node The grid node to search from.
+     * @return A list of adjacent nodes.
+     */
     private List<GridSearchNode> getAdjacentNodes(Grid<GridSearchNode> grid, GridSearchNode node) {
         List<GridSearchNode> adjacent = new ArrayList<>();
         Set<Integer> deltas = Set.of(-1, 0, 1);
-
         for (int dx: deltas) {
             for (int dy: deltas) {
-                // don't add the same node, or nodes on the diagonals
                 if ((dx == 0 && dy == 0) || (Math.abs(dx) > 0 && Math.abs(dy) > 0)) continue;
                 grid.getNodeOptional(node.getX() + dx, node.getY() + dy).ifPresent(adjacent::add);
             }
         }
-
         return adjacent;
     }
 
