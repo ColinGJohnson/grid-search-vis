@@ -20,7 +20,7 @@ public class GridSearchWorker extends SwingWorker<Grid<GridSearchNode>, Grid<Gri
     protected Grid<GridSearchNode> doInBackground() {
         final int PUBLISH_INTERVAL = 10;
         int steps = 0;
-        while (gridSearch.hasNextStep()) {
+        while (gridSearch.hasNextStep() && !isCancelled()) {
             gridSearch.step();
             if (steps++ % PUBLISH_INTERVAL == 0) {
                 publish(gridSearch.getSearchGrid());
