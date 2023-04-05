@@ -53,7 +53,7 @@
                           <font size="14" style="1"/>
                           <horizontalAlignment value="0"/>
                           <horizontalTextPosition value="0"/>
-                          <text value="Algorithm"/>
+                          <text resource-bundle="Labels" key="algorithm"/>
                         </properties>
                       </component>
                     </children>
@@ -126,10 +126,10 @@
                           <font size="14" style="1"/>
                           <horizontalAlignment value="0"/>
                           <horizontalTextPosition value="0"/>
-                          <text value="Color"/>
+                          <text resource-bundle="Labels" key="color"/>
                         </properties>
                       </component>
-                      <grid id="ad295" layout-manager="BorderLayout" hgap="0" vgap="0">
+                      <grid id="ad295" layout-manager="BorderLayout" hgap="10" vgap="0">
                         <constraints>
                           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                           <gridbag weightx="0.0" weighty="0.0"/>
@@ -141,19 +141,19 @@
                             <constraints border-constraint="West"/>
                             <properties>
                               <horizontalTextPosition value="2"/>
-                              <text value="Shift: "/>
+                              <text resource-bundle="Labels" key="shift"/>
                             </properties>
                           </component>
                           <component id="c964d" class="javax.swing.JLabel" binding="colorShiftLabel">
                             <constraints border-constraint="Center"/>
                             <properties>
                               <horizontalTextPosition value="2"/>
-                              <text value="Label"/>
+                              <text value=""/>
                             </properties>
                           </component>
                         </children>
                       </grid>
-                      <grid id="10e0c" layout-manager="BorderLayout" hgap="0" vgap="0">
+                      <grid id="10e0c" layout-manager="BorderLayout" hgap="10" vgap="0">
                         <constraints>
                           <grid row="7" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                           <gridbag weightx="0.0" weighty="0.0"/>
@@ -164,18 +164,18 @@
                           <component id="d081d" class="javax.swing.JLabel">
                             <constraints border-constraint="West"/>
                             <properties>
-                              <text value="Saturation: "/>
+                              <text resource-bundle="Labels" key="saturation"/>
                             </properties>
                           </component>
                           <component id="c8afa" class="javax.swing.JLabel" binding="saturationLabel">
                             <constraints border-constraint="Center"/>
                             <properties>
-                              <text value="Label"/>
+                              <text value=""/>
                             </properties>
                           </component>
                         </children>
                       </grid>
-                      <grid id="22f82" layout-manager="BorderLayout" hgap="0" vgap="0">
+                      <grid id="22f82" layout-manager="BorderLayout" hgap="10" vgap="0">
                         <constraints>
                           <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                           <gridbag weightx="0.0" weighty="0.0"/>
@@ -186,18 +186,18 @@
                           <component id="fb8dc" class="javax.swing.JLabel">
                             <constraints border-constraint="West"/>
                             <properties>
-                              <text value="Brightness: "/>
+                              <text resource-bundle="Labels" key="brightness"/>
                             </properties>
                           </component>
                           <component id="f4d71" class="javax.swing.JLabel" binding="brightnessLabel">
                             <constraints border-constraint="Center"/>
                             <properties>
-                              <text value="Label"/>
+                              <text value=""/>
                             </properties>
                           </component>
                         </children>
                       </grid>
-                      <grid id="5c202" layout-manager="BorderLayout" hgap="0" vgap="0">
+                      <grid id="5c202" layout-manager="BorderLayout" hgap="10" vgap="0">
                         <constraints>
                           <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                           <gridbag weightx="0.0" weighty="0.0"/>
@@ -208,13 +208,13 @@
                           <component id="38b50" class="javax.swing.JLabel">
                             <constraints border-constraint="West"/>
                             <properties>
-                              <text value="Range: "/>
+                              <text resource-bundle="Labels" key="range"/>
                             </properties>
                           </component>
                           <component id="6f38a" class="javax.swing.JLabel" binding="colorRangeLabel">
                             <constraints border-constraint="Center"/>
                             <properties>
-                              <text value="Label"/>
+                              <text value=""/>
                             </properties>
                           </component>
                         </children>
@@ -256,7 +256,7 @@
                           <gridbag weightx="1.0" weighty="1.0"/>
                         </constraints>
                         <properties>
-                          <text value="Width:"/>
+                          <text resource-bundle="Labels" key="width"/>
                         </properties>
                       </component>
                       <component id="b12c7" class="javax.swing.JLabel">
@@ -265,7 +265,7 @@
                           <gridbag weightx="1.0" weighty="1.0"/>
                         </constraints>
                         <properties>
-                          <text value="Height:"/>
+                          <text resource-bundle="Labels" key="height"/>
                         </properties>
                       </component>
                       <component id="8a88c" class="javax.swing.JLabel">
@@ -274,7 +274,7 @@
                           <gridbag weightx="1.0" weighty="1.0"/>
                         </constraints>
                         <properties>
-                          <text value="Scale:"/>
+                          <text resource-bundle="Labels" key="scale"/>
                         </properties>
                       </component>
                       <component id="1db8e" class="javax.swing.JLabel">
@@ -286,7 +286,7 @@
                           <font size="14" style="1"/>
                           <horizontalAlignment value="0"/>
                           <horizontalTextPosition value="0"/>
-                          <text value="Grid"/>
+                          <text resource-bundle="Labels" key="grid"/>
                         </properties>
                       </component>
                       <component id="1630d" class="javax.swing.JCheckBox" binding="showGridLinesCheckBox" default-binding="true">
@@ -295,7 +295,7 @@
                           <gridbag weightx="1.0" weighty="1.0"/>
                         </constraints>
                         <properties>
-                          <text value="Show Grid Lines"/>
+                          <text resource-bundle="Labels" key="show.grid.lines"/>
                         </properties>
                       </component>
                     </children>
@@ -314,7 +314,7 @@
                           <gridbag weightx="1.0" weighty="1.0"/>
                         </constraints>
                         <properties>
-                          <text value="Save as Image"/>
+                          <text resource-bundle="Labels" key="save.as.image"/>
                         </properties>
                       </component>
                       <component id="19710" class="javax.swing.JButton" binding="resetButton" default-binding="true">
@@ -323,7 +323,7 @@
                           <gridbag weightx="1.0" weighty="1.0"/>
                         </constraints>
                         <properties>
-                          <text value="Reset"/>
+                          <text resource-bundle="Labels" key="reset"/>
                         </properties>
                       </component>
                       <component id="5a834" class="javax.swing.JButton" binding="startButton" default-binding="true">
@@ -332,7 +332,7 @@
                           <gridbag weightx="1.0" weighty="1.0"/>
                         </constraints>
                         <properties>
-                          <text value="Start"/>
+                          <text resource-bundle="Labels" key="start"/>
                         </properties>
                       </component>
                     </children>
