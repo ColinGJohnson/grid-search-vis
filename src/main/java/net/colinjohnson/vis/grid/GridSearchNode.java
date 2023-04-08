@@ -34,7 +34,8 @@ public class GridSearchNode extends GridNode {
 
     public void visit(GridSearchNode previous) {
         this.previous = previous;
-        visit();
+        this.visited = true;
+        this.pathLength = previous.getPathLength() + 1;
     }
 
     public boolean isUnvisited() {

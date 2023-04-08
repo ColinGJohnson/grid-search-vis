@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.Random;
 
 public class RandomDepthFirstComparator implements Comparator<GridSearchNode> {
-    static Random random = new Random();
+    static final Random random = new Random();
     @Override
     public int compare(GridSearchNode n1, GridSearchNode n2) {
         if (n1 == n2) return 0;

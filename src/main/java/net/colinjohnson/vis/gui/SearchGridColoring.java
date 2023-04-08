@@ -11,7 +11,7 @@ public class SearchGridColoring implements GridColoringStrategy<GridSearchNode> 
     float colorShift = 0f;
     float saturation = 0.7f;
     float brightness = 0.9f;
-    GridSearch gridSearch;
+    final GridSearch gridSearch;
 
     public SearchGridColoring(GridSearch gridSearch) {
         this.gridSearch = gridSearch;
