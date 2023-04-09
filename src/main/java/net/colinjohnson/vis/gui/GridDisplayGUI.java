@@ -32,7 +32,7 @@ public class GridDisplayGUI extends JFrame {
     private JButton resetButton;
     private JButton startButton;
     private JComboBox<SearchAlgorithm> algorithmSelector;
-    private GridDisplayPanel<GridSearchNode, SearchGridColoring> gridDisplayPanel;
+    private GridDisplayPanel<GridSearchNode, SearchColoringStrategy> gridDisplayPanel;
     private JSlider colorRangeSlider;
     private JSlider colorShiftSlider;
     private JSlider saturationSlider;
@@ -56,10 +56,11 @@ public class GridDisplayGUI extends JFrame {
         startButton.addActionListener(e -> {
             startButton.setEnabled(false);
             GridSearch gridSearch = getGridSearchWithSelectedValues();
-            gridDisplayPanel.setColoringStrategy(new SearchGridColoring(gridSearch));
+            gridDisplayPanel.setColoringStrategy(new SearchColoringStrategy(gridSearch));
             searchWorker = new GridSearchWorker(gridDisplayPanel, gridSearch);
             searchWorker.addPropertyChangeListener(propertyChange -> {
-                if ("state".equals(propertyChange.getPropertyName()) && propertyChange.getNewValue() == SwingWorker.StateValue.DONE) {
+                if ("state".equals(propertyChange.getPropertyName())
+                        && propertyChange.getNewValue() == SwingWorker.StateValue.DONE) {
                     startButton.setEnabled(true);
                 }
             });
@@ -73,7 +74,7 @@ public class GridDisplayGUI extends JFrame {
             }
             GridSearch gridSearch = getGridSearchWithSelectedValues();
             gridDisplayPanel.setGrid(gridSearch.getSearchGrid());
-            gridDisplayPanel.setColoringStrategy(new SearchGridColoring(gridSearch));
+            gridDisplayPanel.setColoringStrategy(new SearchColoringStrategy(gridSearch));
             gridDisplayPanel.repaint();
         });
 
@@ -164,16 +165,20 @@ public class GridDisplayGUI extends JFrame {
                 (int) heightSpinner.getValue()
         );
 
-        return new GridSearch(comparator, obstacleNodeGrid);
+        Point selectedPoint = gridDisplayPanel.getSelectedPoint().orElse(new Point());
+        return new GridSearch(comparator, obstacleNodeGrid, selectedPoint);
     }
 
     private void createUIComponents() {
         widthSpinner = new JSpinner(new SpinnerNumberModel(DEFAULT_WIDTH, 1, 100000, 1));
         heightSpinner = new JSpinner(new SpinnerNumberModel(DEFAULT_HEIGHT, 1, 100000, 1));
         algorithmSelector = new JComboBox<>(SearchAlgorithm.values());
-
-        GridSearch defaultGridSearch = getGridSearchWithSelectedValues();
-        gridDisplayPanel = new GridDisplayPanel<>(defaultGridSearch.getSearchGrid(), new SearchGridColoring(defaultGridSearch));
+        GridSearch defaultGridSearch = new GridSearch(
+                SearchAlgorithm.RANDOM_DFS.getComparator(),
+                new Grid<>(ObstacleNode::new, DEFAULT_WIDTH, DEFAULT_HEIGHT),
+                new Point()
+        );
+        gridDisplayPanel = new GridDisplayPanel<>(defaultGridSearch.getSearchGrid(), new SearchColoringStrategy(defaultGridSearch));
     }
 
     /**

@@ -8,15 +8,17 @@ import org.slf4j.LoggerFactory;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * A JPanel that displays a grid.
  *
  * @param <N> The type of node in the grid.
- * @param <C> The type of coloring strategy used to color the grid.
  */
 public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy<N>> extends JPanel {
     private static final Logger log = LoggerFactory.getLogger(GridDisplayGUI.class);
@@ -24,12 +26,29 @@ public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy
     private BufferedImage gridImage;
     private C coloringStrategy;
     private boolean showGridLines = false;
-    private int scale = 2;
+    private int scale = 2; // Number of pixels per grid square
+    private Point selectedLocation = new Point();
 
     public GridDisplayPanel(Grid<N> grid, C coloringStrategy) {
         super();
         this.grid = grid;
         this.coloringStrategy = coloringStrategy;
+
+        // Set up mouse listener to select locations on the grid
+        this.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                Point topLeft = getTopLeftCorner(getSize(), grid.getSize(), scale);
+                Point bottomRight = getBottomRightCorner(getSize(), grid.getSize(), scale);
+                if (evt.getX() >= topLeft.x && evt.getX() <= bottomRight.x
+                        && evt.getY() >= topLeft.y && evt.getY() <= bottomRight.y) {
+                    int gridX = (evt.getX() - topLeft.x) / scale;
+                    int gridY = (evt.getY() - topLeft.y) / scale;
+                    selectedLocation = new Point(gridX, gridY);
+                    repaint();
+                    log.info("Selected location: {}", selectedLocation);
+                }
+            }
+        });
     }
 
     /**
@@ -42,19 +61,30 @@ public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
         // Calculate the boundaries of the grid
-        int XMin = getBoundaryLocation(this.getWidth(), grid.getWidth(), scale);
-        int YMin = getBoundaryLocation(this.getHeight(), grid.getHeight(), scale);
-        int XMax = XMin + grid.getWidth() * scale;
-        int YMax = YMin + grid.getHeight() * scale;
+        Point topLeft = getTopLeftCorner(this.getSize(), grid.getSize(), scale);
+        Point bottomRight = getBottomRightCorner(this.getSize(), grid.getSize(), scale);
 
         // Draw the grid
         updateGridImage();
-        g.drawImage(gridImage, XMin, YMin, XMax, YMax, 0, 0, grid.getWidth(), grid.getHeight(), null);
+        g.drawImage(gridImage, topLeft.x, topLeft.y, bottomRight.x, bottomRight.y, 0, 0, grid.getWidth(), grid.getHeight(), null);
+
+        // Draw the selected location
+        drawSelectedLocation(g);
 
         // Grid lines form a solid block if scale is 1, so hide them in that case
         if (showGridLines && scale > 1) {
-            drawGridLines(g, YMax, YMin, XMax, XMin);
+            drawGridLines(g, topLeft, bottomRight);
         }
+    }
+
+    private void drawSelectedLocation(Graphics g) {
+        final int MARKER_SIZE = 5;
+        g.setColor(Color.WHITE);
+        g.fillRect(
+            selectedLocation.x * scale - MARKER_SIZE / 2,
+            selectedLocation.y * scale - MARKER_SIZE / 2,
+            MARKER_SIZE, MARKER_SIZE
+        );
     }
 
     private void updateGridImage() {
@@ -81,22 +111,34 @@ public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy
         return (int) ((panelSize - gridSize * scale) / 2.0);
     }
 
+    public static Point getTopLeftCorner(Dimension panelSize, Dimension gridSize, int scale) {
+        return new Point(
+            getBoundaryLocation(panelSize.getWidth(), gridSize.getWidth(), scale),
+            getBoundaryLocation(panelSize.getHeight(), gridSize.getHeight(), scale)
+        );
+    }
+
+    public static Point getBottomRightCorner(Dimension panelSize, Dimension gridSize, int scale) {
+        return new Point(
+            getBoundaryLocation(panelSize.getWidth(), gridSize.getWidth(), scale) + gridSize.width * scale,
+            getBoundaryLocation(panelSize.getHeight(), gridSize.getHeight(), scale) + gridSize.height * scale
+        );
+    }
+
     /**
-     * Draws the grid lines.
+     * Draws grid lines on top of the grid.
      *
      * @param g The graphics object to draw with.
-     * @param YMax The maximum y value of the grid.
-     * @param YMin The minimum y value of the grid.
-     * @param XMax The maximum x value of the grid.
-     * @param XMin The minimum x value of the grid.
+     * @param bottomRight The location of the bottom-right corner of the grid.
+     * @param topLeft The location of the top-left corner of the grid.
      */
-    private void drawGridLines(Graphics g, int YMax, int YMin, int XMax, int XMin) {
+    private void drawGridLines(Graphics g, Point topLeft, Point bottomRight) {
         g.setColor(Color.DARK_GRAY);
-        for (int y = YMin; y <= YMax; y += scale) {
-            g.drawLine(XMax, y, XMin, y);
+        for (int y = topLeft.y; y <= bottomRight.y; y += scale) {
+            g.drawLine(bottomRight.x, y, topLeft.x, y);
         }
-        for (int x = XMin; x <= XMax; x += scale) {
-            g.drawLine(x, YMax, x, YMin);
+        for (int x = topLeft.x; x <= bottomRight.x; x += scale) {
+            g.drawLine(x, bottomRight.y, x, topLeft.y);
         }
     }
 
@@ -106,6 +148,7 @@ public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy
      * @param outputFile The file to save the image to.
      */
     public void saveAsImage(File outputFile) {
+        updateGridImage();
         try {
             ImageIO.write(gridImage, "png", outputFile);
             log.info("Saving image as {}", outputFile.getAbsolutePath());
@@ -124,6 +167,13 @@ public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy
         if (scale < 1) {
             scale = 1;
         }
+    }
+
+    public Optional<Point> getSelectedPoint() {
+        if (selectedLocation.getX() > grid.getWidth() || selectedLocation.getY() > grid.getHeight()) {
+            return Optional.empty();
+        }
+        return Optional.ofNullable(selectedLocation);
     }
 
     public Grid<N> getGrid() {

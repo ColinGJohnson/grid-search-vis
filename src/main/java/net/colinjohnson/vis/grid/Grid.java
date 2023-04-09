@@ -1,5 +1,6 @@
 package net.colinjohnson.vis.grid;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +44,14 @@ public class Grid<N extends GridNode> {
      * @return the node at the specified coordinates.
      * @throws IndexOutOfBoundsException if the specified coordinates are outside the grid.
      */
+    public N getNode(Point p) {
+        return getNode(p.x, p.y);
+    }
+
+    /**
+     * @return the node at the specified coordinates.
+     * @throws IndexOutOfBoundsException if the specified coordinates are outside the grid.
+     */
     public N getNode(int x, int y) {
         if (outOfBounds(x, y)) {
             throw new IndexOutOfBoundsException("Specified coordinates are outside of the grid");
@@ -73,5 +82,9 @@ public class Grid<N extends GridNode> {
 
     public int getHeight() {
         return grid.get(0).size();
+    }
+
+    public Dimension getSize() {
+        return new Dimension(getWidth(), getHeight());
     }
 }

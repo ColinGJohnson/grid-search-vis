@@ -2,8 +2,10 @@
 
 Interactive visualizations for grid-based search algorithms.
 
-### Usage
+### Installation
 
+
+### Usage
 
 
 ### Setup

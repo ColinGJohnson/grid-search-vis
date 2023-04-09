@@ -5,6 +5,6 @@ import net.colinjohnson.vis.grid.GridNode;
 
 import java.awt.*;
 
-interface GridColoringStrategy<T extends GridNode> {
-    Color getColor(Grid<T> grid, int x, int y);
+interface GridColoringStrategy<N extends GridNode> {
+    Color getColor(Grid<N> grid, int x, int y);
 }

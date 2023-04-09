@@ -6,14 +6,14 @@ import net.colinjohnson.vis.grid.GridSearchNode;
 
 import java.awt.*;
 
-public class SearchGridColoring implements GridColoringStrategy<GridSearchNode> {
+public class SearchColoringStrategy implements GridColoringStrategy<GridSearchNode> {
     float colorRange = 1f;
     float colorShift = 0f;
     float saturation = 0.7f;
     float brightness = 0.9f;
     final GridSearch gridSearch;
 
-    public SearchGridColoring(GridSearch gridSearch) {
+    public SearchColoringStrategy(GridSearch gridSearch) {
         this.gridSearch = gridSearch;
     }
 

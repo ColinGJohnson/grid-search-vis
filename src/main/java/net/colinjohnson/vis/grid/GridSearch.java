@@ -1,6 +1,8 @@
 package net.colinjohnson.vis.grid;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class GridSearch {
     private final PriorityQueue<GridSearchNode> searchQueue;
@@ -8,13 +10,13 @@ public class GridSearch {
     private final Grid<ObstacleNode> obstacleGrid;
     private int maxQueue;
 
-    public GridSearch(Comparator<GridSearchNode> gridSearchNodeComparator, Grid<ObstacleNode> obstacleGrid) {
+    public GridSearch(Comparator<GridSearchNode> gridSearchNodeComparator, Grid<ObstacleNode> obstacleGrid, Point searchOrigin) {
         this.obstacleGrid = obstacleGrid;
         searchGrid = new Grid<>(GridSearchNode::new, obstacleGrid.getWidth(), obstacleGrid.getHeight());
         searchQueue = new PriorityQueue<>(gridSearchNodeComparator);
 
         // start with the top left square
-        GridSearchNode topLeft = searchGrid.getNode(0, 0);
+        GridSearchNode topLeft = searchGrid.getNode(searchOrigin);
         topLeft.visit();
         searchQueue.add(topLeft);
     }
