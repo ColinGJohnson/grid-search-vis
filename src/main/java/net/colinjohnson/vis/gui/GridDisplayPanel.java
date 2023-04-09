@@ -21,6 +21,7 @@ import java.io.IOException;
 public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy<N>> extends JPanel {
     private static final Logger log = LoggerFactory.getLogger(GridDisplayGUI.class);
     private Grid<N> grid;
+    private BufferedImage gridImage;
     private C coloringStrategy;
     private boolean showGridLines = false;
     private int scale = 2;
@@ -31,6 +32,9 @@ public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy
         this.coloringStrategy = coloringStrategy;
     }
 
+    /**
+     * Draw the grid. Could be optimized by caching the image.
+     */
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
@@ -43,17 +47,24 @@ public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy
         int XMax = XMin + grid.getWidth() * scale;
         int YMax = YMin + grid.getHeight() * scale;
 
-        // Draw grid squares
-        for (int y = 0; y < grid.getHeight(); y++) {
-            for (int x = 0; x < grid.getWidth(); x++) {
-                g.setColor(coloringStrategy.getColor(grid, x, y));
-                g.fillRect(XMin + x * scale, YMin + y * scale, scale, scale);
-            }
-        }
+        // Draw the grid
+        updateGridImage();
+        g.drawImage(gridImage, XMin, YMin, XMax, YMax, 0, 0, grid.getWidth(), grid.getHeight(), null);
 
         // Grid lines form a solid block if scale is 1, so hide them in that case
         if (showGridLines && scale > 1) {
             drawGridLines(g, YMax, YMin, XMax, XMin);
+        }
+    }
+
+    private void updateGridImage() {
+        if (gridImage == null || gridImage.getWidth() != grid.getWidth() || gridImage.getHeight() != grid.getHeight()) {
+            gridImage = new BufferedImage(grid.getWidth(), grid.getHeight(), BufferedImage.TYPE_INT_RGB);
+        }
+        for (int y = 0; y < grid.getHeight(); y++) {
+            for (int x = 0; x < grid.getWidth(); x++) {
+                gridImage.setRGB(x, y, coloringStrategy.getColor(grid, x, y).getRGB());
+            }
         }
     }
 
@@ -95,16 +106,8 @@ public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy
      * @param outputFile The file to save the image to.
      */
     public void saveAsImage(File outputFile) {
-        BufferedImage image = new BufferedImage(grid.getWidth(), grid.getHeight(), BufferedImage.TYPE_INT_RGB);
-
-        for (int x = 0; x < grid.getWidth(); x++) {
-            for (int y = 0; y < grid.getHeight(); y++) {
-                image.setRGB(x, y, coloringStrategy.getColor(grid, x, y).getRGB());
-            }
-        }
-
         try {
-            ImageIO.write(image, "png", outputFile);
+            ImageIO.write(gridImage, "png", outputFile);
             log.info("Saving image as {}", outputFile.getAbsolutePath());
         } catch (IOException e) {
             log.error("Failed to save image as {}", outputFile.getAbsolutePath(), e);
