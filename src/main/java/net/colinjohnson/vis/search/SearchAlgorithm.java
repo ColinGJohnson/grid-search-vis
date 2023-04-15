@@ -7,7 +7,8 @@ import java.util.Comparator;
 public enum SearchAlgorithm {
     RANDOM_DFS("Random Depth First Search", new RandomDepthFirstComparator()),
     DFS("Depth First Search", new DepthFirstComparator()),
-    BFS("Breadth First Search", new BreadthFirstComparator());
+    BFS("Breadth First Search", new BreadthFirstComparator()),
+    A_STAR("A*", new AStarComparator());
 
     private final String name;
     private final Comparator<GridSearchNode> comparator;

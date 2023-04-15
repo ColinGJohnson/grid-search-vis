@@ -2,7 +2,6 @@ package net.colinjohnson.vis.gui;
 
 import net.colinjohnson.vis.grid.Grid;
 import net.colinjohnson.vis.grid.GridNode;
-import net.colinjohnson.vis.grid.GridSearchNode;
 
 import java.awt.*;
 

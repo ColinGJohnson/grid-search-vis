@@ -488,6 +488,9 @@ public class GridDisplayGUI extends JFrame {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel9.add(startButton, gbc);
         splitPane1.setLeftComponent(gridDisplayPanel);
+        label7.setLabelFor(widthSpinner);
+        label8.setLabelFor(heightSpinner);
+        label9.setLabelFor(scaleSpinner);
     }
 
     /**

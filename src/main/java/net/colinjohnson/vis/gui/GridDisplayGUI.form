@@ -256,6 +256,7 @@
                           <gridbag weightx="1.0" weighty="1.0"/>
                         </constraints>
                         <properties>
+                          <labelFor value="9ff2e"/>
                           <text resource-bundle="Labels" key="width"/>
                         </properties>
                       </component>
@@ -265,6 +266,7 @@
                           <gridbag weightx="1.0" weighty="1.0"/>
                         </constraints>
                         <properties>
+                          <labelFor value="677ce"/>
                           <text resource-bundle="Labels" key="height"/>
                         </properties>
                       </component>
@@ -274,6 +276,7 @@
                           <gridbag weightx="1.0" weighty="1.0"/>
                         </constraints>
                         <properties>
+                          <labelFor value="4bcad"/>
                           <text resource-bundle="Labels" key="scale"/>
                         </properties>
                       </component>

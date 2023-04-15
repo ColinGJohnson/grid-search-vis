@@ -45,4 +45,8 @@ public class GridSearchNode extends GridNode {
     public GridSearchNode getPrevious() {
         return previous;
     }
+
+    public int getHeuristicCost() {
+        return 0;
+    }
 }
