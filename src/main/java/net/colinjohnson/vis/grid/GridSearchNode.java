@@ -29,7 +29,7 @@ public class GridSearchNode extends GridNode {
 
     public void visit() {
         this.visited = true;
-        this.pathLength = getPath().size();
+        this.pathLength = 0;
     }
 
     public void visit(GridSearchNode previous) {

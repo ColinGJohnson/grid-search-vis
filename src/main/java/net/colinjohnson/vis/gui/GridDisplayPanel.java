@@ -26,7 +26,7 @@ public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy
     private BufferedImage gridImage;
     private C coloringStrategy;
     private boolean showGridLines = false;
-    private int scale = 2; // Number of pixels per grid square
+    private int scale = 1; // Number of pixels per grid square
     private Point selectedLocation = new Point();
 
     public GridDisplayPanel(Grid<N> grid, C coloringStrategy) {
