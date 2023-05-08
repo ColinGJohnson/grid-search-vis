@@ -47,6 +47,7 @@ public class GridSearchNode extends GridNode {
     }
 
     public int getHeuristicCost() {
+        // TODO: implement A* heuristic
         return 0;
     }
 }
