@@ -69,7 +69,7 @@ public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy
         g.drawImage(gridImage, topLeft.x, topLeft.y, bottomRight.x, bottomRight.y, 0, 0, grid.getWidth(), grid.getHeight(), null);
 
         // Draw the selected location
-        drawSelectedLocation(g);
+        drawSelectedLocation(g, topLeft);
 
         // Grid lines form a solid block if scale is 1, so hide them in that case
         if (showGridLines && scale > 1) {
@@ -77,12 +77,12 @@ public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy
         }
     }
 
-    private void drawSelectedLocation(Graphics g) {
+    private void drawSelectedLocation(Graphics g, Point topLeft) {
         final int MARKER_SIZE = 5;
         g.setColor(Color.WHITE);
         g.fillRect(
-            selectedLocation.x * scale - MARKER_SIZE / 2,
-            selectedLocation.y * scale - MARKER_SIZE / 2,
+            topLeft.x + selectedLocation.x * scale - MARKER_SIZE / 2,
+            topLeft.y + selectedLocation.y * scale - MARKER_SIZE / 2,
             MARKER_SIZE, MARKER_SIZE
         );
     }
