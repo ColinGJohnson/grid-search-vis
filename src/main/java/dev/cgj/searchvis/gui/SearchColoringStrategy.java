@@ -4,7 +4,7 @@ import dev.cgj.searchvis.grid.Grid;
 import dev.cgj.searchvis.grid.GridSearch;
 import dev.cgj.searchvis.grid.GridSearchNode;
 
-import java.awt.*;
+import java.awt.Color;
 
 public class SearchColoringStrategy implements GridColoringStrategy<GridSearchNode> {
     float colorRange = 1f;

@@ -1,6 +1,7 @@
 package dev.cgj.searchvis.gui;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 

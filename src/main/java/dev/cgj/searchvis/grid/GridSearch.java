@@ -1,8 +1,11 @@
 package dev.cgj.searchvis.grid;
 
-import java.awt.*;
-import java.util.*;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 public class GridSearch {
     private final PriorityQueue<GridSearchNode> searchQueue;

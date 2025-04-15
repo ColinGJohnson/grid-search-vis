@@ -4,7 +4,7 @@ import dev.cgj.searchvis.grid.Grid;
 import dev.cgj.searchvis.grid.GridSearch;
 import dev.cgj.searchvis.grid.GridSearchNode;
 
-import javax.swing.*;
+import javax.swing.SwingWorker;
 import java.util.List;
 
 public class GridSearchWorker extends SwingWorker<Grid<GridSearchNode>, Grid<GridSearchNode>> {
