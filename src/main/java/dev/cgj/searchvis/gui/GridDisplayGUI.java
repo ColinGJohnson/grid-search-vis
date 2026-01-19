@@ -1,5 +1,8 @@
 package dev.cgj.searchvis.gui;
 
+import com.intellij.uiDesigner.core.GridConstraints;
+import com.intellij.uiDesigner.core.GridLayoutManager;
+import com.intellij.uiDesigner.core.Spacer;
 import dev.cgj.searchvis.grid.Grid;
 import dev.cgj.searchvis.grid.GridSearch;
 import dev.cgj.searchvis.grid.GridSearchNode;
@@ -32,13 +35,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.text.StyleContext;
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
@@ -85,7 +82,7 @@ public class GridDisplayGUI extends JFrame {
             searchWorker = new GridSearchWorker(gridDisplayPanel, gridSearch);
             searchWorker.addPropertyChangeListener(propertyChange -> {
                 if ("state".equals(propertyChange.getPropertyName())
-                        && propertyChange.getNewValue() == SwingWorker.StateValue.DONE) {
+                    && propertyChange.getNewValue() == SwingWorker.StateValue.DONE) {
                     startButton.setEnabled(true);
                 }
             });
@@ -177,17 +174,17 @@ public class GridDisplayGUI extends JFrame {
 
     private GridSearch getGridSearchWithSelectedValues() {
         Comparator<GridSearchNode> comparator = Optional.ofNullable(algorithmSelector)
-                .map(selectedItem -> (SearchAlgorithm) selectedItem.getSelectedItem())
-                .map(SearchAlgorithm::getComparator)
-                .orElseGet(() -> {
-                    log.error("No search algorithm selected. Defaulting to RandomDepthFirstComparator.");
-                    return SearchAlgorithm.RANDOM_DFS.getComparator();
-                });
+            .map(selectedItem -> (SearchAlgorithm) selectedItem.getSelectedItem())
+            .map(SearchAlgorithm::getComparator)
+            .orElseGet(() -> {
+                log.error("No search algorithm selected. Defaulting to RandomDepthFirstComparator.");
+                return SearchAlgorithm.RANDOM_DFS.getComparator();
+            });
 
         Grid<ObstacleNode> obstacleNodeGrid = new Grid<>(
-                ObstacleNode::new,
-                (int) widthSpinner.getValue(),
-                (int) heightSpinner.getValue()
+            ObstacleNode::new,
+            (int) widthSpinner.getValue(),
+            (int) heightSpinner.getValue()
         );
 
         Point selectedPoint = gridDisplayPanel.getSelectedPoint().orElse(new Point());
@@ -199,9 +196,9 @@ public class GridDisplayGUI extends JFrame {
         heightSpinner = new JSpinner(new SpinnerNumberModel(DEFAULT_HEIGHT, 1, 100000, 1));
         algorithmSelector = new JComboBox<>(SearchAlgorithm.values());
         GridSearch defaultGridSearch = new GridSearch(
-                SearchAlgorithm.RANDOM_DFS.getComparator(),
-                new Grid<>(ObstacleNode::new, DEFAULT_WIDTH, DEFAULT_HEIGHT),
-                new Point()
+            SearchAlgorithm.RANDOM_DFS.getComparator(),
+            new Grid<>(ObstacleNode::new, DEFAULT_WIDTH, DEFAULT_HEIGHT),
+            new Point()
         );
         gridDisplayPanel = new GridDisplayPanel<>(defaultGridSearch.getSearchGrid(), new SearchColoringStrategy(defaultGridSearch));
     }
@@ -224,60 +221,26 @@ public class GridDisplayGUI extends JFrame {
         final JScrollPane scrollPane1 = new JScrollPane();
         splitPane1.setRightComponent(scrollPane1);
         final JPanel panel1 = new JPanel();
-        panel1.setLayout(new GridBagLayout());
+        panel1.setLayout(new GridLayoutManager(7, 1, new Insets(0, 0, 0, 0), -1, -1));
         scrollPane1.setViewportView(panel1);
         panel1.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10), null, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new GridBagLayout());
+        panel1.add(panel2, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(200, -1), new Dimension(250, -1), new Dimension(400, -1), 0, false));
+        panel2.setBorder(BorderFactory.createTitledBorder(null, this.$$$getMessageFromBundle$$$("Labels", "algorithm"), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, -1, -1, panel2.getFont()), null));
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel1.add(panel2, gbc);
-        gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel2.add(algorithmSelector, gbc);
-        final JLabel label1 = new JLabel();
-        Font label1Font = this.$$$getFont$$$(null, Font.BOLD, 14, label1.getFont());
-        if (label1Font != null) label1.setFont(label1Font);
-        label1.setHorizontalAlignment(0);
-        label1.setHorizontalTextPosition(0);
-        this.$$$loadLabelText$$$(label1, this.$$$getMessageFromBundle$$$("Labels", "algorithm"));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel2.add(label1, gbc);
-        final JSeparator separator1 = new JSeparator();
-        separator1.setEnabled(true);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.gridwidth = 2;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.SOUTH;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel1.add(separator1, gbc);
         final JPanel panel3 = new JPanel();
         panel3.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel1.add(panel3, gbc);
+        panel1.add(panel3, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(200, -1), new Dimension(250, -1), new Dimension(400, -1), 0, false));
+        panel3.setBorder(BorderFactory.createTitledBorder(null, this.$$$getMessageFromBundle$$$("Labels", "color"), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, -1, -1, panel3.getFont()), null));
         colorShiftSlider = new JSlider();
         colorShiftSlider.setPaintLabels(false);
         colorShiftSlider.setPaintTicks(false);
@@ -285,7 +248,7 @@ public class GridDisplayGUI extends JFrame {
         colorShiftSlider.setValueIsAdjusting(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
@@ -298,7 +261,7 @@ public class GridDisplayGUI extends JFrame {
         colorRangeSlider.setValueIsAdjusting(false);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
@@ -308,7 +271,7 @@ public class GridDisplayGUI extends JFrame {
         brightnessSlider.setValue(90);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 5;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
@@ -318,36 +281,23 @@ public class GridDisplayGUI extends JFrame {
         saturationSlider.setValue(70);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 8;
+        gbc.gridy = 7;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel3.add(saturationSlider, gbc);
-        final JLabel label2 = new JLabel();
-        Font label2Font = this.$$$getFont$$$(null, Font.BOLD, 14, label2.getFont());
-        if (label2Font != null) label2.setFont(label2Font);
-        label2.setHorizontalAlignment(0);
-        label2.setHorizontalTextPosition(0);
-        this.$$$loadLabelText$$$(label2, this.$$$getMessageFromBundle$$$("Labels", "color"));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel3.add(label2, gbc);
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new BorderLayout(10, 0));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 0;
         gbc.fill = GridBagConstraints.BOTH;
         panel3.add(panel4, gbc);
-        final JLabel label3 = new JLabel();
-        label3.setHorizontalTextPosition(2);
-        this.$$$loadLabelText$$$(label3, this.$$$getMessageFromBundle$$$("Labels", "shift"));
-        panel4.add(label3, BorderLayout.WEST);
+        final JLabel label1 = new JLabel();
+        label1.setHorizontalTextPosition(2);
+        this.$$$loadLabelText$$$(label1, this.$$$getMessageFromBundle$$$("Labels", "shift"));
+        panel4.add(label1, BorderLayout.WEST);
         colorShiftLabel = new JLabel();
         colorShiftLabel.setHorizontalTextPosition(2);
         colorShiftLabel.setText("");
@@ -356,12 +306,12 @@ public class GridDisplayGUI extends JFrame {
         panel5.setLayout(new BorderLayout(10, 0));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 6;
         gbc.fill = GridBagConstraints.BOTH;
         panel3.add(panel5, gbc);
-        final JLabel label4 = new JLabel();
-        this.$$$loadLabelText$$$(label4, this.$$$getMessageFromBundle$$$("Labels", "saturation"));
-        panel5.add(label4, BorderLayout.WEST);
+        final JLabel label2 = new JLabel();
+        this.$$$loadLabelText$$$(label2, this.$$$getMessageFromBundle$$$("Labels", "saturation"));
+        panel5.add(label2, BorderLayout.WEST);
         saturationLabel = new JLabel();
         saturationLabel.setText("");
         panel5.add(saturationLabel, BorderLayout.CENTER);
@@ -369,12 +319,12 @@ public class GridDisplayGUI extends JFrame {
         panel6.setLayout(new BorderLayout(10, 0));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 4;
         gbc.fill = GridBagConstraints.BOTH;
         panel3.add(panel6, gbc);
-        final JLabel label5 = new JLabel();
-        this.$$$loadLabelText$$$(label5, this.$$$getMessageFromBundle$$$("Labels", "brightness"));
-        panel6.add(label5, BorderLayout.WEST);
+        final JLabel label3 = new JLabel();
+        this.$$$loadLabelText$$$(label3, this.$$$getMessageFromBundle$$$("Labels", "brightness"));
+        panel6.add(label3, BorderLayout.WEST);
         brightnessLabel = new JLabel();
         brightnessLabel.setText("");
         panel6.add(brightnessLabel, BorderLayout.CENTER);
@@ -382,27 +332,22 @@ public class GridDisplayGUI extends JFrame {
         panel7.setLayout(new BorderLayout(10, 0));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.BOTH;
         panel3.add(panel7, gbc);
-        final JLabel label6 = new JLabel();
-        this.$$$loadLabelText$$$(label6, this.$$$getMessageFromBundle$$$("Labels", "range"));
-        panel7.add(label6, BorderLayout.WEST);
+        final JLabel label4 = new JLabel();
+        this.$$$loadLabelText$$$(label4, this.$$$getMessageFromBundle$$$("Labels", "range"));
+        panel7.add(label4, BorderLayout.WEST);
         colorRangeLabel = new JLabel();
         colorRangeLabel.setText("");
         panel7.add(colorRangeLabel, BorderLayout.CENTER);
         final JPanel panel8 = new JPanel();
         panel8.setLayout(new GridBagLayout());
+        panel1.add(panel8, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(200, -1), new Dimension(250, -1), new Dimension(400, -1), 0, false));
+        panel8.setBorder(BorderFactory.createTitledBorder(null, this.$$$getMessageFromBundle$$$("Labels", "grid"), TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, this.$$$getFont$$$(null, -1, -1, panel8.getFont()), null));
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 2;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel1.add(panel8, gbc);
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
@@ -410,7 +355,7 @@ public class GridDisplayGUI extends JFrame {
         panel8.add(widthSpinner, gbc);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 1;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
@@ -419,103 +364,64 @@ public class GridDisplayGUI extends JFrame {
         scaleSpinner = new JSpinner();
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         panel8.add(scaleSpinner, gbc);
-        final JLabel label7 = new JLabel();
-        this.$$$loadLabelText$$$(label7, this.$$$getMessageFromBundle$$$("Labels", "width"));
+        final JLabel label5 = new JLabel();
+        this.$$$loadLabelText$$$(label5, this.$$$getMessageFromBundle$$$("Labels", "width"));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        panel8.add(label5, gbc);
+        final JLabel label6 = new JLabel();
+        this.$$$loadLabelText$$$(label6, this.$$$getMessageFromBundle$$$("Labels", "height"));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
-        panel8.add(label7, gbc);
-        final JLabel label8 = new JLabel();
-        this.$$$loadLabelText$$$(label8, this.$$$getMessageFromBundle$$$("Labels", "height"));
+        panel8.add(label6, gbc);
+        final JLabel label7 = new JLabel();
+        this.$$$loadLabelText$$$(label7, this.$$$getMessageFromBundle$$$("Labels", "scale"));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
-        panel8.add(label8, gbc);
-        final JLabel label9 = new JLabel();
-        this.$$$loadLabelText$$$(label9, this.$$$getMessageFromBundle$$$("Labels", "scale"));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 3;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel8.add(label9, gbc);
-        final JLabel label10 = new JLabel();
-        Font label10Font = this.$$$getFont$$$(null, Font.BOLD, 14, label10.getFont());
-        if (label10Font != null) label10.setFont(label10Font);
-        label10.setHorizontalAlignment(0);
-        label10.setHorizontalTextPosition(0);
-        this.$$$loadLabelText$$$(label10, this.$$$getMessageFromBundle$$$("Labels", "grid"));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        panel8.add(label10, gbc);
+        panel8.add(label7, gbc);
         showGridLinesCheckBox = new JCheckBox();
         this.$$$loadButtonText$$$(showGridLinesCheckBox, this.$$$getMessageFromBundle$$$("Labels", "show.grid.lines"));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         gbc.gridwidth = 2;
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.WEST;
         panel8.add(showGridLinesCheckBox, gbc);
-        final JPanel panel9 = new JPanel();
-        panel9.setLayout(new GridBagLayout());
-        gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 4;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.BOTH;
-        panel1.add(panel9, gbc);
-        saveAsImageButton = new JButton();
-        this.$$$loadButtonText$$$(saveAsImageButton, this.$$$getMessageFromBundle$$$("Labels", "save.as.image"));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel9.add(saveAsImageButton, gbc);
-        resetButton = new JButton();
-        this.$$$loadButtonText$$$(resetButton, this.$$$getMessageFromBundle$$$("Labels", "reset"));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel9.add(resetButton, gbc);
         startButton = new JButton();
         this.$$$loadButtonText$$$(startButton, this.$$$getMessageFromBundle$$$("Labels", "start"));
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        panel9.add(startButton, gbc);
+        panel1.add(startButton, new GridConstraints(4, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        resetButton = new JButton();
+        this.$$$loadButtonText$$$(resetButton, this.$$$getMessageFromBundle$$$("Labels", "reset"));
+        panel1.add(resetButton, new GridConstraints(5, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        saveAsImageButton = new JButton();
+        this.$$$loadButtonText$$$(saveAsImageButton, this.$$$getMessageFromBundle$$$("Labels", "save.as.image"));
+        panel1.add(saveAsImageButton, new GridConstraints(6, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        final Spacer spacer1 = new Spacer();
+        panel1.add(spacer1, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         splitPane1.setLeftComponent(gridDisplayPanel);
-        label7.setLabelFor(widthSpinner);
-        label8.setLabelFor(heightSpinner);
-        label9.setLabelFor(scaleSpinner);
+        label5.setLabelFor(widthSpinner);
+        label6.setLabelFor(heightSpinner);
+        label7.setLabelFor(scaleSpinner);
     }
 
     /**
