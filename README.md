@@ -2,7 +2,7 @@
 
 ![License](https://img.shields.io/github/license/ColinGJohnson/nbody-2d)
 ![Java Version](https://img.shields.io/badge/Java-21-blue)
-![Build status](https://github.com/ColinGJohnson/nbody-2d/actions/workflows/release.yml/badge.svg)
+![Build status](https://github.com/ColinGJohnson/grid-search-vis/actions/workflows/release.yml/badge.svg)
 
 Interactive visualizations of search algorithms on a 2D grid.
 
