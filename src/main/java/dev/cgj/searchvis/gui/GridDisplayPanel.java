@@ -24,7 +24,8 @@ import java.util.Optional;
  * @param <N> The type of node in the grid.
  */
 public class GridDisplayPanel<N extends GridNode, C extends GridColoringStrategy<N>> extends JPanel {
-    private static final Logger log = LoggerFactory.getLogger(GridDisplayGUI.class);
+    private static final Logger log = LoggerFactory.getLogger(GridDisplayPanel.class);
+
     private Grid<N> grid;
     private BufferedImage gridImage;
     private C coloringStrategy;
